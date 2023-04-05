@@ -1,0 +1,688 @@
+﻿@page
+@model VMMCStockManagement.Web.Pages.Admin.Stock.IndexModel
+@{
+	ViewData["Title"] = "Stock";
+	Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div id="asset">
+	<input type="hidden" value="@webSecurity.UserId" ref="userId" id="userId" />
+	<div class="page-header page-header-light">
+		<div class="page-header-content header-elements-md-inline">
+			<div class="page-title d-flex">
+				<h5><i class="icon-arrow-left52 mr-2"></i> <span class="font-weight-semibold">Asset</span> - List</h5>
+				<a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+			</div>
+		</div>
+
+		<div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
+			<div class="d-flex">
+				<div class="breadcrumb">
+					<a href="#" class="breadcrumb-item"><i class="icon-home2 mr-2"></i> Home</a>
+					<span class="breadcrumb-item active">Assets</span>
+				</div>
+
+				<a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+			</div>
+		</div>
+	</div>
+	<div class="content">
+		<div class="row">
+
+			<div class="col-xl-12">
+				<div class="card">
+					<div class="card-header header-elements-inline">
+						<div class="row">
+							<button v-on:click="clearAsset();" data-toggle="modal" data-target="#modalAddNew" class="btn bg-info-800 float-left ">Add Asset</button>
+							<button data-toggle="modal" v-on:click="clearFile()" data-target="#modalAddBulk" class="btn bg-info-800 ml-3 ">Upload Bulk</button>
+						</div>
+					</div>
+
+					<div class="card-body">
+
+						<div class="table-responsive">
+
+							<table id="tblAsset" class="table datatable-button-html5-columns">
+								<thead>
+									<tr>
+										<th>Name</th>
+										<th>Description</th>
+										<th>Serial Number</th>
+										<th>Asset Id</th>
+										<th>Category</th>
+
+										<th></th>
+
+									</tr>
+								</thead>
+								<tbody>
+									<tr v-for="item in assets">
+										<td>{{item.name}}</td>
+										<td>{{item.description}}</td>
+										<td>{{item.serialNumber}}</td>
+										<td>{{item.registrationNumber}}</td>
+										<td>{{item.category}}</td>
+
+										<td class="text-center">
+											<div class="list-icons">
+												<div class="dropdown">
+													<a href="#" class="list-icons-item" data-toggle="dropdown">
+														<i class="icon-menu9"></i>
+													</a>
+
+													<div class="dropdown-menu dropdown-menu-right">
+
+														<a href="#" v-on:click="getRequestById(item.id)" data-toggle="modal" data-target="#modalEdit" class="dropdown-item"><i class="icon-pencil5"></i> Edit</a>
+														<a href="#" v-on:click="selectedAsset = item" data-toggle="modal" data-target="#modalDelete" class="dropdown-item"><i class="icon-bin2"></i> Delete</a>
+													</div>
+												</div>
+											</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+
+						</div>
+			
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Vertical form modal -->
+	<div id="modalAddNew" class="modal fade">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">New Asset</h5>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+
+				<div class="modal-body">
+
+					<div class="row">
+						<div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">
+							<div class="form-group">
+								<label>Invoice Number</label>
+								<input type="text" v-model="asset.invoiceNumber" placeholder="Invoice number" class="form-control">
+							</div>
+						</div>
+
+						<div class="col-sm-4 col-md-4 col-lg-4 col-xl-4 pl-2">
+							<div class="row mt-4">
+								<div class="form-group">
+									<div class="form-check form-check-inline">
+										<label class="form-check-label">
+											<input type="radio" class="form-check-input" v-model="asset.isAddedToRequest" v-bind:value="true">
+											Add to Request
+										</label>
+									</div>
+
+									<div class="form-check form-check-inline">
+										<label class="form-check-label">
+											<input type="radio" class="form-check-input" v-model="asset.isAddedToRequest" v-bind:value="false">
+											Add to Repository
+										</label>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class=" col-sm-4 col-md-4 col-lg-4 col-xl-4">
+							<div class="form-group" v-show="asset.isAddedToRequest">
+								<label>Reference Number</label>
+								<input type="text" v-model="asset.referenceOrTicketNumber" @@input="onReferenceChange($event)" placeholder="Reference number" class="form-control">
+							</div>
+
+						</div>
+
+					</div>
+					<div class="row">
+							<div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">
+								<div class="form-group" :class="{ 'form-group--error': $v.asset.name.$error }">
+									<label>Name</label>
+									<input type="text" v-model="asset.name" placeholder="Name" class="form-control">
+									<div class="error text-danger" v-if="!$v.asset.name.required && hasError">Asset name is required</div>
+								</div>
+							</div>
+
+							<div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">
+								<div class="form-group" :class="{ 'form-group--error': $v.asset.registrationNumber.$error }">
+									<label>Asset Id</label>
+									<input type="text" v-model="asset.registrationNumber" placeholder="Registration number" class="form-control">
+									<div class="error text-danger" v-if="!$v.asset.registrationNumber.required && hasError">Asset Id is required</div>
+								</div>
+							</div>
+
+							<div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">
+								<div class="form-group" :class="{ 'form-group--error': $v.asset.serialNumber.$error }">
+									<label>Serial Number</label>
+									<input type="text" v-model="asset.serialNumber" placeholder="Serial number" class="form-control">
+									<div class="error text-danger" v-if="!$v.asset.serialNumber.required && hasError">Serial number is required</div>
+								</div>
+							</div>
+		
+					</div>
+
+					<div class="row">
+						<div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">
+							<div class="form-group" :class="{ 'form-group--error': $v.asset.assetCategoryId.$error }">
+								<label>Type</label>
+								<select id="assetCategoryId" v-model="asset.assetCategoryId" name="assetCategory" data-placeholder="Asset Category" class="form-control select-search">
+									<option value=""></option>
+									<option v-for="item in assetCategories" v-bind:value="item.id">{{item.name}}</option>
+
+								</select>
+								<div class="error text-danger" v-if="!$v.asset.assetCategoryId.required && hasError">Category is required</div>
+							</div>
+						</div>
+			
+						<div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">
+							<div class="form-group" :class="{ 'form-group--error': $v.asset.makeId.$error }">
+								<label>Make</label>
+								<select id="makeId" v-model="asset.makeId" data-placeholder="Make" class="form-control select-search" @@change="onMakeChange($event)">
+									<option value=""></option>
+									<option v-for="item in makes" v-bind:value="item.id">{{item.name}}</option>
+
+								</select>
+								<div class="error text-danger" v-if="!$v.asset.makeId.required && hasError">Make is required</div>
+							</div>
+						</div>
+
+						<div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">
+							<div class="form-group" :class="{ 'form-group--error': $v.asset.modelId.$error }">
+								<label>Model</label>
+								<select id="modelId" v-model="asset.modelId" data-placeholder="Model" class="form-control select-search">
+									<option value=""></option>
+									<option v-for="item in models" v-bind:value="item.id">{{item.name}}</option>
+
+								</select>
+								<div class="error text-danger" v-if="!$v.asset.modelId.required && hasError">Model is required</div>
+							</div>
+						</div>
+
+						
+					</div>
+
+					<div class="row">
+						
+						<div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">
+							<div class="form-group" :class="{ 'form-group--error': $v.asset.supplierId.$error }">
+								<label>Supplier</label>
+								<select id="supplierId" v-model="asset.supplierId" data-placeholder="Model" class="form-control select-search">
+									<option value=""></option>
+									<option v-for="item in suppliers" v-bind:value="item.id">{{item.name}}</option>
+
+								</select>
+								<div class="error text-danger" v-if="!$v.asset.supplierId.required && hasError">Supplier is required</div>
+							</div>
+						</div>
+
+						<div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">
+							<div class="form-group" :class="{ 'form-group--error': $v.asset.warrantyType.$error }">
+								<label>Warrant Type</label>
+								<select v-model="asset.warrantyType" data-placeholder="Warrant Type" class="form-control">
+									<option value=""></option>
+									<option value="1">Warranty</option>
+									<option value="2">No Warranty</option>
+									<option value="3">Out of Warranty</option>
+
+								</select>
+								<div class="error text-danger" v-if="!$v.asset.warrantyType.required && hasError">Warrant is required</div>
+							</div>
+						</div>
+
+						<div v-show="asset.warrantyType == 1" class="col-sm-4 col-md-4 col-lg-4 col-xl-4">
+							<div class="row">
+								<div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
+									<div class="form-group">
+										<label>Start Date</label>
+										<input type="text" v-model="asset.warrantStartDate" id="warrantStartDate" ref="warrantStartDateRef" placeholder="Start date" class="form-control  alpha-grey pickadate-accessibility" />
+
+									</div>
+								</div>
+
+								<div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
+
+									<div class="form-group">
+										<label>End Date</label>
+										<input type="text" v-model="asset.warrantEndDate" id="warrantEndDate" ref="warrantEndDateRef" placeholder="End date" class="form-control  alpha-grey pickadate-accessibility" />
+
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+
+
+					<div class="row">
+						<div class="col-sm-12">
+
+							<div class="form-group" :class="{ 'form-group--error': $v.asset.description.$error }">
+								<label>Description</label>
+								<textarea type="text" v-model="asset.description" placeholder="Description" rows="3" class="form-control"></textarea>
+								<div class="error text-danger" v-if="!$v.asset.description.required && hasError">Asset description is required</div>
+							</div>
+
+						</div>
+
+					</div>
+
+					<div class="row">
+					
+					
+						<div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">
+							<div class="form-group" >
+								<label>Purchase Price</label>
+								<input type="text" v-model="asset.purchasePrice" placeholder="Purchase Price" class="form-control">
+								
+							</div>
+						</div>
+						<div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">
+							<div class="form-group">
+								<label>Purchase/Recieved Date</label>
+								<input type="text" v-model="asset.purchaseOrReceivedDate" id="purchaseOrReceivedDate" ref="purchaseOrReceivedDateRef" placeholder="Purchased/Received date" class="form-control alpha-grey pickadate-accessibility" />
+
+							</div>
+						</div>
+						<div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">
+							<div class="form-group">
+								<label>Transfer Date</label>
+								<input type="text" v-model="asset.transferDate" id="transferDate" ref="transferDateRef" placeholder="Transfer date" class="form-control  alpha-grey pickadate-accessibility" />
+
+							</div>
+						</div>
+
+                    </div>
+
+					<div class="row">
+						<div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">
+							<div class="form-group" :class="{ 'form-group--error': $v.asset.grantId.$error }">
+								<label>Grant</label>
+								<select id="grantId" :disabled="asset.grantId != ''"  v-model="asset.grantId" data-placeholder="Grant" class="form-control select-search">
+									<option value=""></option>
+									<option v-for="item in grants" v-bind:value="item.id">{{item.name}}</option>
+
+								</select>
+								<div class="error text-danger" v-if="!$v.asset.grantId.required && hasError">Grant is required</div>
+							</div>
+						</div>
+
+
+
+
+
+						<div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">
+							<div class="form-group" :class="{ 'form-group--error': $v.asset.locationId.$error }">
+								<label>Location</label>
+								<select id="locationId" v-model="asset.locationId" data-placeholder="Location" class="form-control select-search">
+									<option value=""></option>
+									<option v-for="item in facilities" v-bind:value="item.id">{{item.name}}</option>
+
+								</select>
+								<div class="error text-danger" v-if="!$v.asset.locationId.required && hasError">Location is required</div>
+
+							</div>
+						</div>
+						<div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">
+							<div class="form-group" :class="{ 'form-group--error': $v.asset.departmentId.$error }">
+								<label>Department</label>
+								<select id="departmentId" v-model="asset.departmentId" data-placeholder="Department" class="form-control select-search">
+									<option value=""></option>
+									<option v-for="item in departments" v-bind:value="item.id">{{item.name}}</option>
+
+								</select>
+								<div class="error text-danger" v-if="!$v.asset.departmentId.required && hasError">Department is required</div>
+							</div>
+						</div>
+
+					</div>
+
+				
+
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+					<button v-on:click="save()" id="btnAdd" type="submit" class="btn bg-info-800 btn-ladda btn-ladda-spinner" data-style="expand-left" data-spinner-color="#333" data-spinner-size="20"><span class="ladda-label">Save</span></button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="modalEdit" class="modal fade">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Edit Asset</h5>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">
+							<div class="form-group">
+								<label>Invoice Number</label>
+								<input type="text" v-model="selectedAsset.invoiceNumber" placeholder="Invoice number" class="form-control">
+							</div>
+						</div>
+
+						<div class="col-sm-4 col-md-4 col-lg-4 col-xl-4 pl-2">
+							<div class="row mt-4">
+								<div class="form-group">
+									<div class="form-check form-check-inline">
+										<label class="form-check-label">
+											<input type="radio" class="form-check-input" v-model="selectedAsset.isAddedToRequest" v-bind:value="true">
+											Add to Request
+										</label>
+									</div>
+
+									<div class="form-check form-check-inline">
+										<label class="form-check-label">
+											<input type="radio" class="form-check-input" v-model="selectedAsset.isAddedToRequest" v-bind:value="false">
+											Add to Repository
+										</label>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class=" col-sm-4 col-md-4 col-lg-4 col-xl-4">
+							<div class="form-group" v-show="asset.isAddedToRequest">
+								<label>Reference Number</label>
+								<input type="text" v-model="selectedAsset.referenceOrTicketNumber" placeholder="Reference number" class="form-control">
+							</div>
+
+						</div>
+
+					</div>
+					<div class="row">
+						<div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">
+							<div class="form-group" :class="{ 'form-group--error': $v.selectedAsset.name.$error }">
+								<label>Name</label>
+								<input type="text" v-model="selectedAsset.name" placeholder="Name" class="form-control">
+								<div class="error text-danger" v-if="!$v.selectedAsset.name.required && hasError">Asset name is required</div>
+							</div>
+						</div>
+
+						<div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">
+							<div class="form-group" :class="{ 'form-group--error': $v.selectedAsset.registrationNumber.$error }">
+								<label>Asset Id</label>
+								<input type="text" v-model="selectedAsset.registrationNumber" placeholder="Asset Id" class="form-control">
+								<div class="error text-danger" v-if="!$v.selectedAsset.registrationNumber.required && hasError">Asset Id is required</div>
+							</div>
+						</div>
+
+						<div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">
+							<div class="form-group" :class="{ 'form-group--error': $v.selectedAsset.serialNumber.$error }">
+								<label>Serial Number</label>
+								<input type="text" v-model="selectedAsset.serialNumber" placeholder="Serial number" class="form-control">
+								<div class="error text-danger" v-if="!$v.selectedAsset.serialNumber.required && hasError">Serial number is required</div>
+							</div>
+						</div>
+
+					</div>
+
+					<div class="row">
+						<div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">
+							<div class="form-group" :class="{ 'form-group--error': $v.selectedAsset.assetCategoryId.$error }">
+								<label>Type</label>
+								<select v-model="selectedAsset.assetCategoryId" data-placeholder="Asset Category" class="form-control select-search">
+									<option value=""></option>
+									<option v-for="item in assetCategories" v-bind:value="item.id">{{item.name}}</option>
+
+								</select>
+								<div class="error text-danger" v-if="!$v.selectedAsset.assetCategoryId.required && hasError">Category is required</div>
+							</div>
+						</div>
+
+						<div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">
+							<div class="form-group" :class="{ 'form-group--error': $v.selectedAsset.makeId.$error }">
+								<label>Make</label>
+								<select v-model="selectedAsset.makeId" data-placeholder="Make" class="form-control select-search" @@change="onMakeChange($event)">
+									<option value=""></option>
+									<option v-for="item in makes" v-bind:value="item.id">{{item.name}}</option>
+
+								</select>
+								<div class="error text-danger" v-if="!$v.selectedAsset.makeId.required && hasError">Make is required</div>
+							</div>
+						</div>
+
+						<div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">
+							<div class="form-group" :class="{ 'form-group--error': $v.selectedAsset.modelId.$error }">
+								<label>Model</label>
+								<select v-model="selectedAsset.modelId" data-placeholder="Model" class="form-control select-search">
+									<option value=""></option>
+									<option v-for="item in models" v-bind:value="item.id">{{item.name}}</option>
+
+								</select>
+								<div class="error text-danger" v-if="!$v.selectedAsset.modelId.required && hasError">Model is required</div>
+							</div>
+						</div>
+
+
+					</div>
+
+					<div class="row">
+
+						<div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">
+							<div class="form-group" :class="{ 'form-group--error': $v.selectedAsset.supplierId.$error }">
+								<label>Supplier</label>
+								<select v-model="selectedAsset.supplierId" data-placeholder="Model" class="form-control select-search">
+									<option value=""></option>
+									<option v-for="item in suppliers" v-bind:value="item.id">{{item.name}}</option>
+
+								</select>
+								<div class="error text-danger" v-if="!$v.selectedAsset.supplierId.required && hasError">Supplier is required</div>
+							</div>
+						</div>
+
+						<div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">
+							<div class="form-group" :class="{ 'form-group--error': $v.selectedAsset.warrantyType.$error }">
+								<label>Warrant Type</label>
+								<select v-model="selectedAsset.warrantyType" data-placeholder="Warrant Type" class="form-control select-search">
+									<option value=""></option>
+									<option value="1">Warranty</option>
+									<option value="2">No Warranty</option>
+									<option value="3">Out of Warranty</option>
+
+								</select>
+								<div class="error text-danger" v-if="!$v.selectedAsset.warrantyType.required && hasError">Warrant is required</div>
+							</div>
+						</div>
+
+						<div v-show="selectedAsset.warrantyType == 1" class="col-sm-4 col-md-4 col-lg-4 col-xl-4">
+							<div class="row">
+								<div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
+									<div class="form-group">
+										<label>Start Date</label>
+										<input type="date" v-model="selectedAsset.warrantStartDate" placeholder="Start date" class="form-control">
+
+									</div>
+								</div>
+
+								<div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
+
+									<div class="form-group">
+										<label>End Date</label>
+										<input type="date" v-model="selectedAsset.warrantEndDate" placeholder="End date" class="form-control">
+
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+
+
+					<div class="row">
+						<div class="col-sm-12">
+
+							<div class="form-group" :class="{ 'form-group--error': $v.selectedAsset.description.$error }">
+								<label>Description</label>
+								<textarea type="text" v-model="selectedAsset.description" placeholder="Description" rows="3" class="form-control"></textarea>
+								<div class="error text-danger" v-if="!$v.selectedAsset.description.required && hasError">Asset description is required</div>
+							</div>
+
+						</div>
+
+					</div>
+
+					<div class="row">
+
+
+						<div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">
+							<div class="form-group">
+								<label>Purchase Price</label>
+								<input type="text" v-model="selectedAsset.purchasePrice" placeholder="Purchase Price" class="form-control">
+
+							</div>
+						</div>
+						<div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">
+							<div class="form-group">
+								<label>Purchase/Recieved Date</label>
+								<input type="date" v-model="selectedAsset.purchaseOrReceivedDate" placeholder="Purchased/Received date" class="form-control">
+
+							</div>
+						</div>
+						<div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">
+							<div class="form-group">
+								<label>Transfer Date</label>
+								<input type="date" v-model="selectedAsset.transferDate" placeholder="Transfer date" class="form-control">
+
+							</div>
+						</div>
+
+					</div>
+
+					<div class="row">
+						<div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">
+							<div class="form-group" :class="{ 'form-group--error': $v.selectedAsset.grantId.$error }">
+								<label>Grant</label>
+								<select v-model="selectedAsset.grantId" data-placeholder="Model" class="form-control select-search">
+									<option value=""></option>
+									<option v-for="item in grants" v-bind:value="item.id">{{item.name}}</option>
+
+								</select>
+								<div class="error text-danger" v-if="!$v.selectedAsset.grantId.required && hasError">Grant is required</div>
+							</div>
+						</div>
+
+						<div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">
+							<div class="form-group">
+								<label>Location</label>
+								<select v-model="selectedAsset.locationId" data-placeholder="Model" class="form-control select-search">
+									<option value=""></option>
+									<option v-for="item in facilities" v-bind:value="item.id">{{item.name}}</option>
+
+								</select>
+								<div class="error text-danger" v-if="!$v.selectedAsset.grantId.required && hasError">Location is required</div>
+
+							</div>
+						</div>
+						<div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">
+							<div class="form-group">
+								<label>Department</label>
+								<select v-model="selectedAsset.departmentId" data-placeholder="Model" class="form-control select-search">
+									<option value=""></option>
+									<option v-for="item in departments" v-bind:value="item.id">{{item.name}}</option>
+
+								</select>
+								<div class="error text-danger" v-if="!$v.selectedAsset.grantId.required && hasError">Department is required</div>
+							</div>
+						</div>
+
+					</div>
+
+			
+
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+					<button v-on:click="edit()" type="submit" id="btnUpdate" class="btn bg-info-800 btn-ladda btn-ladda-spinner" data-style="expand-left" data-spinner-color="#333" data-spinner-size="20"><span class="ladda-label">Save</span></button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="modalAddBulk" class="modal fade" tabindex="-1">
+		<div class="modal-dialog modal-md">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Add Bulk</h5>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+
+				<div class="modal-body">
+					
+					<div class="form-group row" :class="{ 'form-group--error': $v.assetFile.$error }">
+						<div class="col-lg-12">
+							<input ref="file" v-on:click="clearFile" accept=".xlx,.xlsx" v-on:change="onFileChange()" type="file" class="file-input" data-show-upload="false" data-show-caption="true" data-show-preview="true" data-fouc>
+							<div class="error text-danger" v-if="!$v.assetFile.required && fileError">Assets file is required.</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+
+					<button id="btnUpload" type="submit" v-on:click="uploadFile()" class="btn bg-info-800 btn-ladda btn-ladda-spinner" data-style="expand-left" data-spinner-color="#333" data-spinner-size="20">
+						<span  class="ladda-label">Upload</span>
+					</button>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="modalDelete" class="modal fade" tabindex="-1">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Delete Department</h5>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+
+				<div class="modal-body">
+					<p>Are you sure you want to delete this department?</p>
+
+				</div>
+
+				<div class="modal-footer">
+					<button id="btnDelete" v-on:click="deleteAsset()" type="submit" class="btn bg-danger btn-ladda btn-ladda-spinner" data-style="expand-left" data-spinner-color="#333" data-spinner-size="20"><span class="ladda-label">Yes, Delete</span></button>
+					<button  type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="modalInfo" class="modal fade" tabindex="-1">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">{{modalDateError.header}}</h5>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+
+				<div class="modal-body">
+					<p>{{modalDateError.message}}</p>
+
+				</div>
+
+				<div class="modal-footer">
+
+					<button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+@section Scripts {
+
+	<script src="~/app/project/admin/manage-assets.js"></script>
+
+}

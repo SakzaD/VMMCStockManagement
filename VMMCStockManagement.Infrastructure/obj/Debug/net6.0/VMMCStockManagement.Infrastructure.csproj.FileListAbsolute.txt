@@ -1,0 +1,17 @@
+C:\Users\Sibdlamini\source\repos\VMMCStockManagement.Domain\VMMCStockManagement.Infrastructure\bin\Debug\net6.0\VMMCStockManagement.Infrastructure.deps.json
+C:\Users\Sibdlamini\source\repos\VMMCStockManagement.Domain\VMMCStockManagement.Infrastructure\bin\Debug\net6.0\VMMCStockManagement.Infrastructure.runtimeconfig.json
+C:\Users\Sibdlamini\source\repos\VMMCStockManagement.Domain\VMMCStockManagement.Infrastructure\bin\Debug\net6.0\VMMCStockManagement.Infrastructure.dll
+C:\Users\Sibdlamini\source\repos\VMMCStockManagement.Domain\VMMCStockManagement.Infrastructure\bin\Debug\net6.0\VMMCStockManagement.Infrastructure.pdb
+C:\Users\Sibdlamini\source\repos\VMMCStockManagement.Domain\VMMCStockManagement.Infrastructure\bin\Debug\net6.0\VMMCStockManagement.Domain.dll
+C:\Users\Sibdlamini\source\repos\VMMCStockManagement.Domain\VMMCStockManagement.Infrastructure\bin\Debug\net6.0\VMMCStockManagement.Domain.pdb
+C:\Users\Sibdlamini\source\repos\VMMCStockManagement.Domain\VMMCStockManagement.Infrastructure\obj\Debug\net6.0\VMMCStockManagement.Infrastructure.csproj.AssemblyReference.cache
+C:\Users\Sibdlamini\source\repos\VMMCStockManagement.Domain\VMMCStockManagement.Infrastructure\obj\Debug\net6.0\VMMCStockManagement.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Sibdlamini\source\repos\VMMCStockManagement.Domain\VMMCStockManagement.Infrastructure\obj\Debug\net6.0\VMMCStockManagement.Infrastructure.AssemblyInfoInputs.cache
+C:\Users\Sibdlamini\source\repos\VMMCStockManagement.Domain\VMMCStockManagement.Infrastructure\obj\Debug\net6.0\VMMCStockManagement.Infrastructure.AssemblyInfo.cs
+C:\Users\Sibdlamini\source\repos\VMMCStockManagement.Domain\VMMCStockManagement.Infrastructure\obj\Debug\net6.0\VMMCStockManagement.Infrastructure.csproj.CoreCompileInputs.cache
+C:\Users\Sibdlamini\source\repos\VMMCStockManagement.Domain\VMMCStockManagement.Infrastructure\obj\Debug\net6.0\VMMCStockManagement.Infrastructure.csproj.CopyComplete
+C:\Users\Sibdlamini\source\repos\VMMCStockManagement.Domain\VMMCStockManagement.Infrastructure\obj\Debug\net6.0\VMMCStockManagement.Infrastructure.dll
+C:\Users\Sibdlamini\source\repos\VMMCStockManagement.Domain\VMMCStockManagement.Infrastructure\obj\Debug\net6.0\refint\VMMCStockManagement.Infrastructure.dll
+C:\Users\Sibdlamini\source\repos\VMMCStockManagement.Domain\VMMCStockManagement.Infrastructure\obj\Debug\net6.0\VMMCStockManagement.Infrastructure.pdb
+C:\Users\Sibdlamini\source\repos\VMMCStockManagement.Domain\VMMCStockManagement.Infrastructure\obj\Debug\net6.0\VMMCStockManagement.Infrastructure.genruntimeconfig.cache
+C:\Users\Sibdlamini\source\repos\VMMCStockManagement.Domain\VMMCStockManagement.Infrastructure\obj\Debug\net6.0\ref\VMMCStockManagement.Infrastructure.dll

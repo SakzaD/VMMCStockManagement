@@ -1,0 +1,12 @@
+C:\Users\Sibdlamini\source\repos\VMMCStockManagement.Domain\VMMCStockManagement.Domain\bin\Debug\net6.0\VMMCStockManagement.Domain.deps.json
+C:\Users\Sibdlamini\source\repos\VMMCStockManagement.Domain\VMMCStockManagement.Domain\bin\Debug\net6.0\VMMCStockManagement.Domain.dll
+C:\Users\Sibdlamini\source\repos\VMMCStockManagement.Domain\VMMCStockManagement.Domain\bin\Debug\net6.0\VMMCStockManagement.Domain.pdb
+C:\Users\Sibdlamini\source\repos\VMMCStockManagement.Domain\VMMCStockManagement.Domain\obj\Debug\net6.0\VMMCStockManagement.Domain.csproj.AssemblyReference.cache
+C:\Users\Sibdlamini\source\repos\VMMCStockManagement.Domain\VMMCStockManagement.Domain\obj\Debug\net6.0\VMMCStockManagement.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Sibdlamini\source\repos\VMMCStockManagement.Domain\VMMCStockManagement.Domain\obj\Debug\net6.0\VMMCStockManagement.Domain.AssemblyInfoInputs.cache
+C:\Users\Sibdlamini\source\repos\VMMCStockManagement.Domain\VMMCStockManagement.Domain\obj\Debug\net6.0\VMMCStockManagement.Domain.AssemblyInfo.cs
+C:\Users\Sibdlamini\source\repos\VMMCStockManagement.Domain\VMMCStockManagement.Domain\obj\Debug\net6.0\VMMCStockManagement.Domain.csproj.CoreCompileInputs.cache
+C:\Users\Sibdlamini\source\repos\VMMCStockManagement.Domain\VMMCStockManagement.Domain\obj\Debug\net6.0\VMMCStockManagement.Domain.dll
+C:\Users\Sibdlamini\source\repos\VMMCStockManagement.Domain\VMMCStockManagement.Domain\obj\Debug\net6.0\refint\VMMCStockManagement.Domain.dll
+C:\Users\Sibdlamini\source\repos\VMMCStockManagement.Domain\VMMCStockManagement.Domain\obj\Debug\net6.0\VMMCStockManagement.Domain.pdb
+C:\Users\Sibdlamini\source\repos\VMMCStockManagement.Domain\VMMCStockManagement.Domain\obj\Debug\net6.0\ref\VMMCStockManagement.Domain.dll

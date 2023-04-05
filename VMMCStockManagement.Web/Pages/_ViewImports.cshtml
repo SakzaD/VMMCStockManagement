@@ -1,0 +1,11 @@
+﻿@using Microsoft.AspNetCore.Authorization;
+@using Microsoft.AspNetCore.Identity
+@using VMMCStockManagement.Domain.Utils;
+@using VMMCStockManagement.Web
+@using VMMCStockManagement.Web.Data
+@namespace VMMCStockManagement.Web.Pages
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@inject IWebSecurity webSecurity
+
+@inject IAuthorizationService AuthorizationService
+@using VMMCStockManagement.Domain.Constants;

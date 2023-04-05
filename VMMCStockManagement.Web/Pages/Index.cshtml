@@ -1,0 +1,327 @@
+﻿@page
+@model IndexModel
+@{
+	ViewData["Title"] = "Dashboard";
+}
+
+
+@if (!webSecurity.HasRole(RoleConstants.DataCapture))
+{
+	<!-- Page header -->
+	<div class="page-header page-header-light">
+
+
+		<div class="card">
+			<div class="card-body">
+				<div class="row">
+					<div class="col-sm-3 col-md-3 col-lg-3 col-xl-2">
+						<label>Asset Type</label>
+						<div class="form-group form-group-feedback form-group-feedback-left">
+							<select @*v-model="reportFilter.departmentId"*@ class="form-control form-control-lg bg-light" id="ReportBranch" name="ReportBranch" placeholder="Branch" required>
+								<option>Select type</option>
+								<option v-for="item in assetCategories" v-bind:value="item.id">{{item.name}}</option>
+							</select>
+							@*	<div class="form-control-feedback">
+						<i class="icon-home text-info-800"></i>
+						</div>*@
+						</div>
+					</div>
+
+					<div class="col-sm-3 col-md-3 col-lg-3 col-xl-2">
+						<label>Location</label>
+						<div class="form-group form-group-feedback form-group-feedback-left">
+							<select @*v-model="reportFilter.departmentId"*@ class="form-control form-control-lg bg-light" id="ReportBranch" name="ReportBranch" placeholder="Branch" required>
+								<option>Select department</option>
+								<option v-for="item in departments" v-bind:value="item.id">{{item.name}}</option>
+							</select>
+							@*	<div class="form-control-feedback">
+						<i class="icon-home text-info-800"></i>
+						</div>*@
+						</div>
+					</div>
+
+					<div class="col-sm-3 col-md-3 col-lg-3 col-xl-2">
+						<label>Department</label>
+						<div class="form-group form-group-feedback form-group-feedback-left">
+							<select @*v-model="reportFilter.departmentId"*@ class="form-control form-control-lg bg-light" id="ReportBranch" name="ReportBranch" placeholder="Branch" required>
+								<option>Select department</option>
+								<option v-for="item in facilities" v-bind:value="item.id">{{item.name}}</option>
+							</select>
+							@*<div class="form-control-feedback">
+						<i class="icon-home text-info-800"></i>
+						</div>*@
+						</div>
+					</div>
+
+					<div class="col-sm-3 col-md-3 col-lg-3 col-xl-2">
+						<label>Start Date</label>
+						<div class="form-group form-group-feedback form-group-feedback-left">
+							<input @*v-model="reportFilter.startDate"*@ type="date" class="form-control bg-light pickadate-accessibility" ref="datepickerStart" name="startDate" placeholder="Start date" required>
+							@*	<div class="form-control-feedback">
+						<i class="icon-calendar text-info-800"></i>
+						</div>*@
+						</div>
+					</div>
+
+					<div class="col-sm-3 col-md-3 col-lg-3 col-xl-2">
+						<label>End Date</label>
+						<div class="form-group form-group-feedback form-group-feedback-left">
+							<input @*v-model="reportFilter.endDate"*@ type="date" class="form-control bg-light pickadate-accessibility" ref="datepickerEnd" name="endDate" placeholder="End date" required>
+							@*	<div class="form-control-feedback">
+						<i class="icon-calendar text-info-800"></i>
+						</div>*@
+						</div>
+					</div>
+
+					<div class="col-sm-3 col-md-3 col-lg-3 col-xl-2 d-flex align-items-center">
+						<button v-on:click="filterDashboard();" id="btnFilterDashboard" type="button" class="btn bg-info-800 mr-2 btn-ladda btn-ladda-spinner" data-spinner-color="#333" data-style="fade">
+							<span class="ladda-label">Filter</span>
+						</button>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+	<!-- /page header -->
+}
+<!-- Content area -->
+<div class="content" id="dashboard2">
+
+	@if (webSecurity.HasRole(RoleConstants.DataCapture))
+	{
+		<!-- Main charts -->
+		<div class="row">
+			<div class="col-xl-12">
+
+				<div class="row">
+					<div class="col-xs-4 col-sm-4 col-xl-4 col-md-4 col-lg-4">
+						<div class="card card-body">
+							<div class="media">
+								<div class="media-body ml-3">
+
+									<span class="text-uppercase font-weight-semibold font-size-sm text-muted">Total Requests</span>
+									<h3 class="font-weight-semibold mb-0 text-success-800">@Model.DashboardStatsResponse.TotalRequest</h3>
+								</div>
+								<div class="ml-3 align-self-center">
+									<i class="icon-folder-download icon-3x opacity-75 text-success-800"></i>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-xs-4 col-sm-4 col-xl-4 col-md-4 col-lg-4">
+						<div class="card card-body">
+							<div class="media">
+								<div class="media-body ml-3">
+
+									<span class="text-uppercase font-size-sm font-weight-semibold text-muted">Total Returns</span>
+									<h3 class="font-weight-semibold mb-0 text-success-800">@Model.DashboardStatsResponse.TotalReturn</h3>
+								</div>
+
+								<div class="ml-3 align-self-center">
+									<i class="icon-rotate-ccw3 icon-3x opacity-75 text-success-800"></i>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-xs-4 col-sm-4 col-xl-4 col-md-4 col-lg-4">
+						<div class="card card-body">
+							<div class="media">
+								<div class="media-body ml-3">
+									<span class="text-uppercase font-size-sm text-muted">
+										Total Assets
+									</span>
+									<h3 class="font-weight-semibold mb-0 text-success-800">@Model.DashboardStatsResponse.TotalMyAssets</h3>
+								</div>
+
+								<div class="ml-3 align-self-center">
+									<i class="icon-sigma icon-3x opacity-75 text-success-800"></i>
+								</div>
+							</div>
+						</div>
+					</div>
+
+
+				</div>
+
+			
+			</div>
+		</div>
+	}
+	else
+	{
+
+		<!-- Main charts -->
+		<div class="row">
+			<div class="col-xl-12">
+
+				<div class="row">
+					<div class="col-sm-6 col-xl-3">
+						<div class="card card-body">
+							<div class="media">
+								<div class="media-body ml-3">
+
+									<span class="text-uppercase font-weight-semibold font-size-sm text-muted">Total Requests</span>
+									<h3 class="font-weight-semibold mb-0 text-success-800">{{dashboard.totalRequest}}</h3>
+								</div>
+								<div class="ml-3 align-self-center">
+									<i class="icon-folder-download icon-3x opacity-75 text-success-800"></i>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-sm-6 col-xl-3">
+						<div class="card card-body">
+							<div class="media">
+								<div class="media-body ml-3">
+
+									<span class="text-uppercase font-size-sm font-weight-semibold text-muted">Total Returns</span>
+									<h3 class="font-weight-semibold mb-0 text-success-800">{{dashboard.totalReturn}}</h3>
+								</div>
+
+								<div class="ml-3 align-self-center">
+									<i class="icon-rotate-ccw3 icon-3x opacity-75 text-success-800"></i>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-sm-6 col-xl-3">
+						<div class="card card-body">
+							<div class="media">
+								<div class="media-body ml-3">
+									<span class="text-uppercase font-size-sm text-muted">Total Transfers</span>
+									<h3 class="font-weight-semibold mb-0 text-success-800">{{dashboard.totalTransfer}}</h3>
+								</div>
+
+								<div class="ml-3 align-self-center">
+									<i class="icon-transmission icon-3x opacity-75 text-success-800"></i>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-sm-6 col-xl-3">
+						<div class="card card-body">
+							<div class="media">
+								<div class="media-body ml-3">
+
+									<span class="text-uppercase font-size-sm text-muted">Total Repairs</span>
+									<h3 class="font-weight-semibold mb-0 text-success-800">{{dashboard.totalRepair}}</h3>
+								</div>
+								<div class="ml-3 align-self-center">
+									<i class="icon-hammer-wrench icon-3x opacity-75 text-success-800"></i>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-sm-6 col-xl-3">
+						<div class="card card-body">
+							<div class="media">
+								<div class="media-body ml-3">
+
+									<span class="text-uppercase font-size-sm text-muted">Total Damage/Loss</span>
+									<h3 class="font-weight-semibold mb-0 text-success-800">{{dashboard.totalDamageOrLoss}}</h3>
+								</div>
+
+								<div class="ml-3 align-self-center">
+									<i class="icon-warning22 icon-3x opacity-75 text-success-800"></i>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-sm-6 col-xl-3">
+						<div class="card card-body">
+							<div class="media">
+								<div class="media-body ml-3">
+
+									<span class="text-uppercase font-size-sm text-muted">Total Disposals</span>
+									<h3 class="font-weight-semibold text-success-800 mb-0">{{dashboard.totalDisposal}}</h3>
+								</div>
+
+								<div class="ml-3 align-self-center">
+									<i class="icon-bin icon-3x opacity-75 text-success-800"></i>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-sm-6 col-xl-3">
+						<div class="card card-body">
+							<div class="media">
+								<div class="media-body ml-3">
+									<span class="text-uppercase font-size-sm text-muted">Total Replacements</span>
+									<h3 class="font-weight-semibold mb-0 text-success-800">{{dashboard.totalReplacement}}</h3>
+								</div>
+
+								<div class="ml-3 align-self-center">
+									<i class="icon-loop3 icon-3x opacity-75 text-success-800"></i>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-sm-6 col-xl-3">
+						<div class="card card-body">
+							<div class="media">
+								<div class="media-body ml-3">
+									<span class="text-uppercase font-size-sm text-muted">
+										Total Assets
+									</span>
+									<h3 class="font-weight-semibold mb-0 text-success-800">{{dashboard.totalAllAssets}}</h3>
+								</div>
+
+								<div class="ml-3 align-self-center">
+									<i class="icon-sigma icon-3x opacity-75 text-success-800"></i>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="card">
+					<div class="card-header header-elements-inline">
+						<h5 class="card-title">Monthly Assets Stats</h5>
+					</div>
+
+					<div class="card-body">
+						<div class="chart-container">
+							<div class="chart has-fixed-height" id="columns_monthly"></div>
+						</div>
+					</div>
+				</div>
+
+
+				<div class="card d-none">
+					<div class="card-header header-elements-inline">
+						<h5 class="card-title">Daily Assets Stats</h5>
+					</div>
+
+					<div class="card-body">
+						<div class="chart-container">
+							<div class="chart has-fixed-height" id="columns_daily"></div>
+						</div>
+					</div>
+				</div>
+
+
+
+			</div>
+		</div>
+	}
+
+</div>
+<!-- /content area -->
+<!-- Footer -->
+@section Scripts {
+
+	<script src="~/app/project/dashboard/Dashboard.js"></script>
+}

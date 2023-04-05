@@ -1,0 +1,536 @@
+﻿@using VMMCStockManagement.Domain.Constants;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>@ViewData["Title"] - VMMC Stock Management</title>
+	<!-- Global stylesheets -->
+	<link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
+	<link href="~/global_assets/css/icons/icomoon/styles.min.css" rel="stylesheet" type="text/css">
+	<link href="~/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+	<link href="~/assets/css/bootstrap_limitless.min.css" rel="stylesheet" type="text/css">
+	<link href="~/assets/css/layout.min.css" rel="stylesheet" type="text/css">
+	<link href="~/assets/css/components.min.css" rel="stylesheet" type="text/css">
+	<link href="~/assets/css/colors.min.css" rel="stylesheet" type="text/css">
+
+	<link rel="stylesheet" href="~/assets/js/vendor/sa/dist/sweetalert2.css">
+	<link rel="stylesheet" href="~/assets/js/vendor/toastr/toastr.css">
+
+	<!-- /global stylesheets -->
+	<!--signing stylesheets-->
+	<link rel="stylesheet" type="text/css" href="~/css/demoButtons.css" />
+
+
+
+
+
+</head>
+<body class="navbar-top">
+
+	<!-- Main navbar -->
+	<div class="navbar navbar-expand-md navbar-dark fixed-top" id="notification">
+		<div class="navbar-brand">
+			<a href="/">
+				<img src="~/global_assets/images/logo-dark.png" alt="" style="width:60px; height:30px;">
+			</a>
+		</div>
+
+		<div class="d-md-none">
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-mobile">
+				<i class="icon-tree5"></i>
+			</button>
+			<button class="navbar-toggler sidebar-mobile-main-toggle mx-3" type="button">
+				<i class="icon-paragraph-justify3"></i>
+			</button>
+		</div>
+
+		<div class="collapse navbar-collapse" id="navbar-mobile">
+			<ul class="navbar-nav">
+				<li class="nav-item">
+					<a href="#" class="navbar-nav-link sidebar-control sidebar-main-toggle d-none d-md-block">
+						<i class="icon-paragraph-justify3"></i>
+					</a>
+				</li>
+
+			</ul>
+
+			@*<span class="badge ml-md-3 mr-md-auto text-dark">.</span>*@
+			<div class="mr-md-auto">
+			</div>
+
+			<ul class="navbar-nav">
+
+				<li id="stock-request-layout" class="nav-item dropdown ">
+					<a href="#" class="navbar-nav-link dropdown-toggle caret-0" data-toggle="dropdown">
+						<i class="icon-bubbles4 text-light"></i>
+						<span class="d-md-none ml-2">Messages</span>
+						<span class="badge badge-pill bg-warning-400 ml-auto ml-md-0">{{notification.numberOfRequest}}</span>
+					</a>
+
+					<div class="dropdown-menu dropdown-menu-right dropdown-content wmin-md-350 d-none">
+						<div class="dropdown-content-header">
+							<span class="font-weight-semibold">Asset(s) Request</span>
+						</div>
+
+						<div class="dropdown-content-body dropdown-scrollable">
+							<ul class="media-list">
+								<li class="media">
+
+									<div class="media-body">
+										<div class="media-title">
+											<a href="/product/stocktaking/view?id=+item.id">
+												<span class="font-weight-semibold">Location requested stock update</span>
+												<span class="text-muted float-right font-size-sm">Date</span>
+											</a>
+										</div>
+
+										<span class="text-muted">Name has submitted stok qauntity list.</span>
+									</div>
+								</li>
+
+
+							</ul>
+						</div>
+
+
+					</div>
+				</li>
+
+				<li class="nav-item dropdown dropdown-user">
+
+					<a href="#" class="navbar-nav-link d-flex align-items-center dropdown-toggle" data-toggle="dropdown">
+						<img src="~/global_assets/images/placeholders/avatar-1.jpg" class="rounded-circle mr-2" height="34" alt="">
+						<span>@webSecurity?.User?.FullName</span>
+					</a>
+
+					<div class="dropdown-menu dropdown-menu-right">
+						<a href="~/account/profile" class="dropdown-item"><i class="icon-user-plus"></i>Profile</a>
+						<a href="~/account/profile" class="dropdown-item"><i class="icon-user-plus"></i>Requests</a>
+						<a asp-area="Identity" asp-page="/Account/Logout" class="dropdown-item"><i class="icon-switch2"></i> Logout</a>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<!-- /main navbar -->
+	<!-- Page content -->
+	<div class="page-content" id="dashboard">
+
+		<!-- Main sidebar -->
+		<div class="sidebar sidebar-dark sidebar-main sidebar-fixed sidebar-expand-md">
+
+			<!-- Sidebar mobile toggler -->
+			<div class="sidebar-mobile-toggler text-center">
+				<a href="#" class="sidebar-mobile-main-toggle">
+					<i class="icon-arrow-left8"></i>
+				</a>
+				Navigation
+				<a href="#" class="sidebar-mobile-expand">
+					<i class="icon-screen-full"></i>
+					<i class="icon-screen-normal"></i>
+				</a>
+			</div>
+			<!-- /sidebar mobile toggler -->
+			<!-- Sidebar content -->
+			<div class="sidebar-content">
+
+				<!-- User menu -->
+				<div class="sidebar-user">
+					<div class="card-body">
+						<div class="media">
+							<div class="mr-3">
+								<a href="#"><img src="~/global_assets/images/placeholders/avatar-1.jpg" width="38" height="38" class="rounded-circle" alt=""></a>
+							</div>
+
+							<div class="media-body">
+
+								<div class="media-title font-weight-semibold">@webSecurity?.User?.FullName</div>
+								<div class="font-size-xs opacity-50">
+									<p>@webSecurity.Role</p>
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<!-- /user menu -->
+				<!-- Main navigation -->
+				<div class="card card-sidebar-mobile">
+					<ul class="nav nav-sidebar" data-nav-type="accordion">
+
+						<li class="nav-item">
+
+							<a href="/" id="dashboard" class="nav-link">
+								<i class="icon-home4"></i>
+								<span>
+									Dashboard
+								</span>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="~/AssetManage" id="request" class="nav-link"><i class="icon-folder-download"></i> <span>Manage Assets</span></a>
+						</li>
+						@if (webSecurity.HasRole(@RoleConstants.DataCapture))
+						{
+							<li class="nav-item">
+								<a href="~/RequestedAssets/Requester" id="dispensary" class="nav-link"><i class="icon-copy"></i> <span>My Requests</span></a>
+							</li>
+						}
+
+						@if (webSecurity.HasRole(RoleConstants.SiteManager))
+						{
+							<li class="nav-item">
+								<a href="~/RequestedAssets/LineManager" id="request" class="nav-link"><i class="icon-folder-download"></i> <span>Requested Assets</span></a>
+							</li>
+
+						}
+						else if (webSecurity.HasRole(RoleConstants.DistrictManager))
+						{
+							<li class="nav-item">
+								<a href="~/RequestedAssets/ServiceDesk" id="request" class="nav-link"><i class="icon-folder-download"></i> <span>Requested Assets</span></a>
+							</li>
+						}
+						
+						@if (webSecurity.HasRole(RoleConstants.DataCapture) ||
+								webSecurity.HasRole(RoleConstants.SiteManager) ||
+								webSecurity.HasRole(RoleConstants.DistrictManager) 
+								)
+						{
+							<li class="nav-item nav-item-submenu">
+								<a href="#" class="nav-link"><i class="icon-stack-text"></i> <span>Report</span></a>
+
+								<ul class="nav nav-group-sub" data-submenu-title="Report">
+									@*<li class="nav-item"><a href="index.html" class="nav-link active">Default</a></li>*@
+									<li class="nav-item"><a href="~/report/requestasset" class="nav-link">Request Asset</a></li>
+									<li class="nav-item"><a href="~/report/AssetReport" class="nav-link">Asset</a></li>
+
+
+								</ul>
+							</li>
+						}
+
+						@if (webSecurity.HasRole(RoleConstants.Administrator))
+						{
+							<li class="nav-item nav-item-submenu">
+								<a href="#" class="nav-link"><i class="icon-color-sampler"></i> <span>Administrator</span></a>
+
+								<ul class="nav nav-group-sub" data-submenu-title="Administrator">
+									@*<li class="nav-item"><a href="index.html" class="nav-link active">Default</a></li>*@
+									<li class="nav-item"><a href="~/admin/users" class="nav-link">Users</a></li>
+									@*<li class="nav-item"><a href="~/admin/locations" class="nav-link">Locations</a></li>*@
+									<li class="nav-item"><a href="~/admin/facilities" class="nav-link">Locations</a></li>
+									<li class="nav-item"><a href="~/admin/AssetCategory" class="nav-link">Asset Categories</a></li>
+									<li class="nav-item"><a href="~/admin/departments" class="nav-link">Departments</a></li>
+									<li class="nav-item"><a href="~/admin/grants" class="nav-link">Grants</a></li>
+									<li class="nav-item"><a href="~/admin/assets" class="nav-link">Assets</a></li>
+									<li class="nav-item"><a href="~/admin/jobtitles" class="nav-link">Job Titles</a></li>
+									@*<li class="nav-item"><a href="~/admin/facilities" class="nav-link">Facilities</a></li>*@
+									<li class="nav-item"><a href="~/admin/Countries" class="nav-link">Countries</a></li>
+									<li class="nav-item"><a href="~/admin/reasons" class="nav-link">Reasons</a></li>
+									<li class="nav-item"><a href="~/admin/ReasonCategories" class="nav-link">Reason Categories</a></li>
+									<li class="nav-item"><a href="~/admin/Make" class="nav-link">Make</a></li>
+									<li class="nav-item"><a href="~/admin/Model" class="nav-link">Model</a></li>
+									<li class="nav-item"><a href="~/admin/suppliers" class="nav-link">Suppliers</a></li>
+
+								</ul>
+							</li>
+						}
+
+						@if (webSecurity.HasRole(RoleConstants.StockManager))
+						{
+							<li class="nav-item nav-item-submenu">
+								<a href="#" class="nav-link"><i class="icon-color-sampler"></i> <span>Asset Manager</span></a>
+
+								<ul class="nav nav-group-sub" data-submenu-title="Asset Manager">
+									<li class="nav-item"><a href="~/admin/assets" class="nav-link">Assets</a></li>
+
+									<li class="nav-item"><a href="~/admin/facilities" class="nav-link">Locations</a></li>
+									<li class="nav-item"><a href="~/admin/AssetCategory" class="nav-link">Asset Categories</a></li>
+									<li class="nav-item"><a href="~/admin/departments" class="nav-link">Departments</a></li>
+									<li class="nav-item"><a href="~/admin/grants" class="nav-link">Grants</a></li>
+
+									<li class="nav-item"><a href="~/admin/jobtitles" class="nav-link">Job Titles</a></li>
+									<li class="nav-item"><a href="~/admin/Countries" class="nav-link">Countries</a></li>
+									<li class="nav-item"><a href="~/admin/reasons" class="nav-link">Reasons</a></li>
+									<li class="nav-item"><a href="~/admin/Make" class="nav-link">Make</a></li>
+									<li class="nav-item"><a href="~/admin/Model" class="nav-link">Model</a></li>
+									<li class="nav-item"><a href="~/admin/suppliers" class="nav-link">Suppliers</a></li>
+
+								</ul>
+							</li>
+						}
+
+					</ul>
+				</div>
+				<!-- /main navigation -->
+
+			</div>
+			<!-- /sidebar content -->
+
+		</div>
+		<!-- /main sidebar -->
+		<!-- Main content -->
+		<div class="content-wrapper">
+
+			@RenderBody()
+
+			<div class="navbar navbar-expand-lg navbar-light fixed-bottom">
+				<div class="text-center d-lg-none w-100">
+					<button type="button" class="navbar-toggler dropdown-toggle" data-toggle="collapse" data-target="#navbar-footer">
+						<i class="icon-unfold mr-2"></i>
+						Footer
+					</button>
+				</div>
+
+				<div class="navbar-collapse collapse" id="navbar-footer">
+					<span class="navbar-text">
+						&copy; @DateTime.Now.ToString("yyyy") <a href="#">It Assets</a>
+					</span>
+
+					@*<ul class="navbar-nav ml-lg-auto">
+					<li class="nav-item"><a href="https://kopyov.ticksy.com/" class="navbar-nav-link" target="_blank"><i class="icon-lifebuoy mr-2"></i> Support</a></li>
+					<li class="nav-item"><a href="http://demo.interface.club/limitless/docs/" class="navbar-nav-link" target="_blank"><i class="icon-file-text2 mr-2"></i> Docs</a></li>
+					<li class="nav-item"><a href="https://themeforest.net/item/limitless-responsive-web-application-kit/13080328?ref=kopyov" class="navbar-nav-link font-weight-semibold"><span class="text-pink-400"><i class="icon-cart2 mr-2"></i> Purchase</span></a></li>
+					</ul>*@
+				</div>
+			</div>
+			<!-- /footer -->
+
+		</div>
+		<!-- /main content -->
+
+	</div>
+
+	<!-- /page content -->
+	<!-- Core JS files -->
+	<script src="~/global_assets/js/main/jquery.min.js"></script>
+	<script src="~/global_assets/js/main/bootstrap.bundle.min.js"></script>
+	<script src="~/global_assets/js/plugins/loaders/blockui.min.js"></script>
+
+
+	<script src="~/global_assets/js/plugins/visualization/echarts/echarts.min.js"></script>
+
+	@*<script src="~/assets/js/app.js"></script>*@
+
+	<script src="~/global_assets/js/demo_charts/echarts/light/bars/columns_basic.js"></script>
+	@*<script src="~/global_assets/js/demo_charts/echarts/light/bars/columns_timeline.js"></script>*@
+
+	<script src="~/global_assets/js/plugins/forms/wizards/steps.min.js"></script>
+	<script src="~/global_assets/js/plugins/visualization/d3/d3.min.js"></script>
+	<script src="~/global_assets/js/plugins/visualization/d3/d3_tooltip.js"></script>
+	<script src="~/global_assets/js/plugins/forms/styling/switchery.min.js"></script>
+	@*<script src="~/global_assets/js/plugins/ui/moment/moment.min.js"></script>*@
+	<script src="~/global_assets/js/plugins/pickers/daterangepicker.js"></script>
+
+	<script src="~/global_assets/js/plugins/ui/moment/moment.min.js"></script>
+	<script src="~/global_assets/js/plugins/pickers/anytime.min.js"></script>
+	<script src="~/global_assets/js/plugins/pickers/pickadate/picker.js"></script>
+	<script src="~/global_assets/js/plugins/pickers/pickadate/picker.date.js"></script>
+	<script src="~/global_assets/js/plugins/pickers/pickadate/picker.time.js"></script>
+	<script src="~/global_assets/js/plugins/pickers/pickadate/legacy.js"></script>
+
+	<script src="~/global_assets/js/plugins/forms/styling/uniform.min.js"></script>
+	<script src="~/global_assets/js/plugins/forms/styling/switch.min.js"></script>
+	<script src="~/global_assets/js/plugins/extensions/jquery_ui/interactions.min.js"></script>
+	<script src="~/global_assets/js/plugins/forms/selects/select2.min.js"></script>
+
+	@*<script src="~/global_assets/js/plugins/tables/datatables/datatables.min.js"></script>*@
+
+	<script src="~/global_assets/js/demo_pages/datatables_extension_buttons_html5.js"></script>
+	<script src="~/global_assets/js/demo_pages/form_select2.js"></script>
+	<script src="~/global_assets/js/demo_pages/form_wizard.js"></script>
+	<script src="~/global_assets/js/demo_pages/dashboard.js"></script>
+	<script src="~/global_assets/js/demo_charts/pages/dashboard/light/streamgraph.js"></script>
+	<script src="~/global_assets/js/demo_charts/pages/dashboard/light/sparklines.js"></script>
+	<script src="~/global_assets/js/demo_charts/pages/dashboard/light/lines.js"></script>
+	<script src="~/global_assets/js/demo_charts/pages/dashboard/light/areas.js"></script>
+	<script src="~/global_assets/js/demo_charts/pages/dashboard/light/donuts.js"></script>
+	<script src="~/global_assets/js/demo_charts/pages/dashboard/light/bars.js"></script>
+	<script src="~/global_assets/js/demo_charts/pages/dashboard/light/progress.js"></script>
+	<script src="~/global_assets/js/demo_charts/pages/dashboard/light/heatmaps.js"></script>
+	<script src="~/global_assets/js/demo_charts/pages/dashboard/light/pies.js"></script>
+	<script src="~/global_assets/js/demo_charts/pages/dashboard/light/bullets.js"></script>
+
+	<script src="~/global_assets/js/plugins/buttons/spin.min.js"></script>
+	<script src="~/global_assets/js/plugins/buttons/ladda.min.js"></script>
+	<script src="~/global_assets/js/plugins/notifications/sweet_alert.min.js"></script>
+	<script src="~/global_assets/js/plugins/notifications/pnotify.min.js"></script>
+	<script src="~/global_assets/js/plugins/loaders/progressbar.min.js"></script>
+	<script src="~/global_assets/js/plugins/uploaders/fileinput/fileinput.min.js"></script>
+	<script src="~/global_assets/js/plugins/buttons/spin.min.js"></script>
+	<script src="~/global_assets/js/plugins/buttons/ladda.min.js"></script>
+	<script src="~/global_assets/js/plugins/forms/wizards/steps.min.js"></script>
+	<script src="~/assets/js/app.js"></script>
+	@*	<script src="~/global_assets/js/demo_pages/form_select2.js"></script>*@
+	<script src="~/global_assets/js/demo_pages/components_popups.js"></script>
+
+	<script src="~/global_assets/js/demo_pages/form_wizard.js"></script>
+
+	@*<script src="~/global_assets/js/demo_pages/components_buttons.js"></script>*@
+	<script src="~/global_assets/js/demo_pages/uploader_bootstrap.js"></script>
+	<script src="~/js/script.js"></script>
+	<script src="~/global_assets/js/demo_pages/form_checkboxes_radios.js"></script>
+	@*<script src="~/global_assets/js/plugins/notifications/sweet_alert.min.js"></script>*@
+	@*<script src="~/global_assets/js/plugins/forms/selects/select2.min.js"></script>*@
+	@*<script src="~/global_assets/js/plugins/loaders/blockui.min.js"></script>*@
+	<!-- /core JS files -->
+	<!-- Theme JS files -->
+	<!-- Theme JS files -->
+	@*<script src="~/global_assets/js/plugins/forms/wizards/steps.min.js"></script>*@
+	@*<script src="~/global_assets/js/plugins/forms/selects/select2.min.js"></script>*@
+	@*<script src="~/global_assets/js/plugins/forms/styling/uniform.min.js"></script>*@
+	<script src="~/global_assets/js/plugins/forms/inputs/inputmask.js"></script>
+	<script src="~/global_assets/js/plugins/forms/validation/validate.min.js"></script>
+	<script src="~/global_assets/js/plugins/extensions/cookie.js"></script>
+
+	<script src="~/global_assets/js/plugins/tables/datatables/datatables.min.js"></script>
+	@*<script src="~/global_assets/js/demo_pages/datatables_basic.js"></script>*@
+
+	<script src="~/app/vue/dist/vue.js"></script>
+	<script src="~/app/axios/dist/axios.js"></script>
+	<script src="~/app/CrudMixins.js"></script>
+	<script src="~/assets/js/vendor/sa/dist/sweetalert2.js"></script>
+	<script src="~/assets/js/vendor/toastr/toastr.min.js"></script>
+	<script src="~/app/vue/vuelidate/dist/vuelidate.min.js"></script>
+	<script src="~/app/vue/vuelidate/dist/validators.min.js"></script>
+
+	<script src="~/app/utils/notification.js"></script>
+	<script src="~/app/utils/adapt-config.js"></script>
+	<script src="~/app/project/dashboard/notification.js"></script>
+
+
+	<!-- /theme JS files -->
+
+	<script>
+		// Basic options
+		$('.pickadate').pickadate();
+
+		// Change day names
+		$('.pickadate-strings').pickadate({
+			weekdaysShort: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+			showMonthsShort: true
+		});
+
+		// Button options
+		$('.pickadate-buttons').pickadate({
+			today: '',
+			close: '',
+			clear: 'Clear selection'
+		});
+
+		// Accessibility labels
+		$('.pickadate-accessibility').pickadate({
+			labelMonthNext: 'Go to the next month',
+			labelMonthPrev: 'Go to the previous month',
+			labelMonthSelect: 'Pick a month from the dropdown',
+			labelYearSelect: 'Pick a year from the dropdown',
+			selectMonths: true,
+			selectYears: true,
+			format: 'dd-mm-yyyy'
+		});
+
+		// Localization
+		$('.pickadate-translated').pickadate({
+			monthsFull: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
+			weekdaysShort: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
+			today: 'aujourd\'hui',
+			clear: 'effacer',
+			formatSubmit: 'yyyy/mm/dd'
+		});
+
+		// Format options
+		$('.pickadate-format').pickadate({
+
+			// Escape any “rule” characters with an exclamation mark (!).
+			format: 'You selecte!d: dddd, dd mmm, yyyy',
+			formatSubmit: 'yyyy/mm/dd',
+			hiddenPrefix: 'prefix__',
+			hiddenSuffix: '__suffix'
+		});
+
+		// Editable input
+		var $input_date = $('.pickadate-editable').pickadate({
+			editable: true,
+			onClose: function () {
+				$('.datepicker').focus();
+			}
+		});
+		var picker_date = $input_date.pickadate('picker');
+		$input_date.on('click', function (event) {
+			if (picker_date.get('open')) {
+				picker_date.close();
+			} else {
+				picker_date.open();
+			}
+			event.stopPropagation();
+		});
+
+		// Dropdown selectors
+		$('.pickadate-selectors').pickadate({
+			selectYears: true,
+			selectMonths: true
+		});
+
+		// Year selector
+		$('.pickadate-year').pickadate({
+			selectYears: 4
+		});
+
+		// Set first weekday
+		$('.pickadate-weekday').pickadate({
+			firstDay: 1
+		});
+
+		// Date limits
+		$('.pickadate-limits').pickadate({
+			min: [2014, 3, 20],
+			max: [2014, 7, 14]
+		});
+
+		// Disable certain dates
+		$('.pickadate-disable').pickadate({
+			disable: [
+				[2015, 8, 3],
+				[2015, 8, 12],
+				[2015, 8, 20]
+			]
+		});
+
+		// Disable date range
+		$('.pickadate-disable-range').pickadate({
+			disable: [
+				5,
+				[2013, 10, 21, 'inverted'],
+				{ from: [2014, 3, 15], to: [2014, 3, 25] },
+				[2014, 3, 20, 'inverted'],
+				{ from: [2014, 3, 17], to: [2014, 3, 18], inverted: true }
+			]
+		});
+
+		// Events
+		$('.pickadate-events').pickadate({
+			onStart: function () {
+				console.log('Hello there :)')
+			},
+			onRender: function () {
+				console.log('Whoa.. rendered anew')
+			},
+			onOpen: function () {
+				console.log('Opened up')
+			},
+			onClose: function () {
+				console.log('Closed now')
+			},
+			onStop: function () {
+				console.log('See ya.')
+			},
+			onSet: function (context) {
+				console.log('Just set stuff:', context)
+			}
+		});
+	</script>
+
+	@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
