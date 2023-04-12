@@ -5,7 +5,7 @@
 }
 
 
-@if (!webSecurity.HasRole(RoleConstants.DataCapture))
+@if (!webSecurity.HasRole(RoleConstants.Requester))
 {
 	<!-- Page header -->
 	<div class="page-header page-header-light">
@@ -14,62 +14,50 @@
 		<div class="card">
 			<div class="card-body">
 				<div class="row">
-					<div class="col-sm-3 col-md-3 col-lg-3 col-xl-2">
+					<div class="card-header header-elements-inline">
+						<h5 class="card-title">Dashboard</h5>
+					</div>
+					@*<div class="col-sm-3 col-md-3 col-lg-3 col-xl-2">
 						<label>Asset Type</label>
 						<div class="form-group form-group-feedback form-group-feedback-left">
-							<select @*v-model="reportFilter.departmentId"*@ class="form-control form-control-lg bg-light" id="ReportBranch" name="ReportBranch" placeholder="Branch" required>
+							<select class="form-control form-control-lg bg-light" id="ReportBranch" name="ReportBranch" placeholder="Branch" required>
 								<option>Select type</option>
 								<option v-for="item in assetCategories" v-bind:value="item.id">{{item.name}}</option>
-							</select>
-							@*	<div class="form-control-feedback">
-						<i class="icon-home text-info-800"></i>
-						</div>*@
+							</select>						
 						</div>
 					</div>
 
 					<div class="col-sm-3 col-md-3 col-lg-3 col-xl-2">
 						<label>Location</label>
 						<div class="form-group form-group-feedback form-group-feedback-left">
-							<select @*v-model="reportFilter.departmentId"*@ class="form-control form-control-lg bg-light" id="ReportBranch" name="ReportBranch" placeholder="Branch" required>
+							<select  class="form-control form-control-lg bg-light" id="ReportBranch" name="ReportBranch" placeholder="Branch" required>
 								<option>Select department</option>
 								<option v-for="item in departments" v-bind:value="item.id">{{item.name}}</option>
-							</select>
-							@*	<div class="form-control-feedback">
-						<i class="icon-home text-info-800"></i>
-						</div>*@
+							</select>							
 						</div>
 					</div>
 
 					<div class="col-sm-3 col-md-3 col-lg-3 col-xl-2">
 						<label>Department</label>
 						<div class="form-group form-group-feedback form-group-feedback-left">
-							<select @*v-model="reportFilter.departmentId"*@ class="form-control form-control-lg bg-light" id="ReportBranch" name="ReportBranch" placeholder="Branch" required>
+							<select class="form-control form-control-lg bg-light" id="ReportBranch" name="ReportBranch" placeholder="Branch" required>
 								<option>Select department</option>
 								<option v-for="item in facilities" v-bind:value="item.id">{{item.name}}</option>
-							</select>
-							@*<div class="form-control-feedback">
-						<i class="icon-home text-info-800"></i>
-						</div>*@
+							</select>						
 						</div>
 					</div>
 
 					<div class="col-sm-3 col-md-3 col-lg-3 col-xl-2">
 						<label>Start Date</label>
 						<div class="form-group form-group-feedback form-group-feedback-left">
-							<input @*v-model="reportFilter.startDate"*@ type="date" class="form-control bg-light pickadate-accessibility" ref="datepickerStart" name="startDate" placeholder="Start date" required>
-							@*	<div class="form-control-feedback">
-						<i class="icon-calendar text-info-800"></i>
-						</div>*@
+							<input type="date" class="form-control bg-light pickadate-accessibility" ref="datepickerStart" name="startDate" placeholder="Start date" required>
 						</div>
 					</div>
 
 					<div class="col-sm-3 col-md-3 col-lg-3 col-xl-2">
 						<label>End Date</label>
 						<div class="form-group form-group-feedback form-group-feedback-left">
-							<input @*v-model="reportFilter.endDate"*@ type="date" class="form-control bg-light pickadate-accessibility" ref="datepickerEnd" name="endDate" placeholder="End date" required>
-							@*	<div class="form-control-feedback">
-						<i class="icon-calendar text-info-800"></i>
-						</div>*@
+							<input type="date" class="form-control bg-light pickadate-accessibility" ref="datepickerEnd" name="endDate" placeholder="End date" required>
 						</div>
 					</div>
 
@@ -77,7 +65,7 @@
 						<button v-on:click="filterDashboard();" id="btnFilterDashboard" type="button" class="btn bg-info-800 mr-2 btn-ladda btn-ladda-spinner" data-spinner-color="#333" data-style="fade">
 							<span class="ladda-label">Filter</span>
 						</button>
-					</div>
+					</div>*@
 				</div>
 			</div>
 
@@ -89,13 +77,13 @@
 <!-- Content area -->
 <div class="content" id="dashboard2">
 
-	@if (webSecurity.HasRole(RoleConstants.DataCapture))
+	@if (webSecurity.HasRole(RoleConstants.Requester))
 	{
 		<!-- Main charts -->
 		<div class="row">
 			<div class="col-xl-12">
 
-				<div class="row">
+				@*<div class="row">
 					<div class="col-xs-4 col-sm-4 col-xl-4 col-md-4 col-lg-4">
 						<div class="card card-body">
 							<div class="media">
@@ -145,7 +133,7 @@
 					</div>
 
 
-				</div>
+				</div>*@
 
 			
 			</div>
@@ -156,7 +144,7 @@
 
 		<!-- Main charts -->
 		<div class="row">
-			<div class="col-xl-12">
+			@*<div class="col-xl-12">
 
 				<div class="row">
 					<div class="col-sm-6 col-xl-3">
@@ -314,7 +302,7 @@
 
 
 
-			</div>
+			</div>*@
 		</div>
 	}
 

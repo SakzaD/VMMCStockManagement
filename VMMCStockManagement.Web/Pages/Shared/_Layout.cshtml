@@ -169,32 +169,32 @@
 							</a>
 						</li>
 						<li class="nav-item">
-							<a href="~/AssetManage" id="request" class="nav-link"><i class="icon-folder-download"></i> <span>Manage Assets</span></a>
+							<a href="~/AssetManage" id="request" class="nav-link"><i class="icon-folder-download"></i> <span>Manage Stock</span></a>
 						</li>
-						@if (webSecurity.HasRole(@RoleConstants.DataCapture))
+						@if (webSecurity.HasRole(@RoleConstants.Requester))
 						{
 							<li class="nav-item">
 								<a href="~/RequestedAssets/Requester" id="dispensary" class="nav-link"><i class="icon-copy"></i> <span>My Requests</span></a>
 							</li>
 						}
 
-						@if (webSecurity.HasRole(RoleConstants.SiteManager))
+						@if (webSecurity.HasRole(RoleConstants.DistrictCoordinator))
 						{
 							<li class="nav-item">
-								<a href="~/RequestedAssets/LineManager" id="request" class="nav-link"><i class="icon-folder-download"></i> <span>Requested Assets</span></a>
+								<a href="~/RequestedAssets/LineManager" id="request" class="nav-link"><i class="icon-folder-download"></i> <span>Requested Stock</span></a>
 							</li>
 
 						}
-						else if (webSecurity.HasRole(RoleConstants.DistrictManager))
+						else if (webSecurity.HasRole(RoleConstants.HOApprover))
 						{
 							<li class="nav-item">
-								<a href="~/RequestedAssets/ServiceDesk" id="request" class="nav-link"><i class="icon-folder-download"></i> <span>Requested Assets</span></a>
+								<a href="~/RequestedAssets/ServiceDesk" id="request" class="nav-link"><i class="icon-folder-download"></i> <span>Requested Stock</span></a>
 							</li>
 						}
 						
-						@if (webSecurity.HasRole(RoleConstants.DataCapture) ||
-								webSecurity.HasRole(RoleConstants.SiteManager) ||
-								webSecurity.HasRole(RoleConstants.DistrictManager) 
+						@if (webSecurity.HasRole(RoleConstants.Requester) ||
+								webSecurity.HasRole(RoleConstants.DistrictCoordinator) ||
+								webSecurity.HasRole(RoleConstants.HOApprover) 
 								)
 						{
 							<li class="nav-item nav-item-submenu">
@@ -202,8 +202,8 @@
 
 								<ul class="nav nav-group-sub" data-submenu-title="Report">
 									@*<li class="nav-item"><a href="index.html" class="nav-link active">Default</a></li>*@
-									<li class="nav-item"><a href="~/report/requestasset" class="nav-link">Request Asset</a></li>
-									<li class="nav-item"><a href="~/report/AssetReport" class="nav-link">Asset</a></li>
+									<li class="nav-item"><a href="~/report/requestasset" class="nav-link">Request Stock</a></li>
+									<li class="nav-item"><a href="~/report/AssetReport" class="nav-link">Stock</a></li>
 
 
 								</ul>
@@ -215,41 +215,38 @@
 							<li class="nav-item nav-item-submenu">
 								<a href="#" class="nav-link"><i class="icon-color-sampler"></i> <span>Administrator</span></a>
 
-								<ul class="nav nav-group-sub" data-submenu-title="Administrator">
-									@*<li class="nav-item"><a href="index.html" class="nav-link active">Default</a></li>*@
-									<li class="nav-item"><a href="~/admin/users" class="nav-link">Users</a></li>
-									@*<li class="nav-item"><a href="~/admin/locations" class="nav-link">Locations</a></li>*@
-									<li class="nav-item"><a href="~/admin/facilities" class="nav-link">Locations</a></li>
-									<li class="nav-item"><a href="~/admin/AssetCategory" class="nav-link">Asset Categories</a></li>
-									<li class="nav-item"><a href="~/admin/departments" class="nav-link">Departments</a></li>
-									<li class="nav-item"><a href="~/admin/grants" class="nav-link">Grants</a></li>
-									<li class="nav-item"><a href="~/admin/assets" class="nav-link">Assets</a></li>
-									<li class="nav-item"><a href="~/admin/jobtitles" class="nav-link">Job Titles</a></li>
-									@*<li class="nav-item"><a href="~/admin/facilities" class="nav-link">Facilities</a></li>*@
+								<ul class="nav nav-group-sub" data-submenu-title="Administrator">									
+									<li class="nav-item"><a href="~/admin/users" class="nav-link">Users</a></li>									
+									@*<li class="nav-item"><a href="~/admin/facilities" class="nav-link">Locations</a></li>*@
+									<li class="nav-item"><a href="~/admin/AssetCategory" class="nav-link">Categories</a></li>
+									@*<li class="nav-item"><a href="~/admin/departments" class="nav-link">Departments</a></li>*@
+									@*<li class="nav-item"><a href="~/admin/grants" class="nav-link">Grants</a></li>*@
+									<li class="nav-item"><a href="~/admin/assets" class="nav-link">Stock</a></li>
+									@*<li class="nav-item"><a href="~/admin/jobtitles" class="nav-link">Job Titles</a></li>
+									<li class="nav-item"><a href="~/admin/facilities" class="nav-link">Facilities</a></li>*@
 									<li class="nav-item"><a href="~/admin/Countries" class="nav-link">Countries</a></li>
 									<li class="nav-item"><a href="~/admin/reasons" class="nav-link">Reasons</a></li>
-									<li class="nav-item"><a href="~/admin/ReasonCategories" class="nav-link">Reason Categories</a></li>
-									<li class="nav-item"><a href="~/admin/Make" class="nav-link">Make</a></li>
+@*									<li class="nav-item"><a href="~/admin/ReasonCategories" class="nav-link">Reason Categories</a></li>
+*@									@*<li class="nav-item"><a href="~/admin/Make" class="nav-link">Make</a></li>
 									<li class="nav-item"><a href="~/admin/Model" class="nav-link">Model</a></li>
-									<li class="nav-item"><a href="~/admin/suppliers" class="nav-link">Suppliers</a></li>
+									<li class="nav-item"><a href="~/admin/suppliers" class="nav-link">Suppliers</a></li>*@
 
 								</ul>
 							</li>
 						}
 
-						@if (webSecurity.HasRole(RoleConstants.StockManager))
+						@if (webSecurity.HasRole(RoleConstants.ProgramAdministrator))
 						{
 							<li class="nav-item nav-item-submenu">
-								<a href="#" class="nav-link"><i class="icon-color-sampler"></i> <span>Asset Manager</span></a>
+								<a href="#" class="nav-link"><i class="icon-color-sampler"></i> <span>Stock Manager</span></a>
 
-								<ul class="nav nav-group-sub" data-submenu-title="Asset Manager">
-									<li class="nav-item"><a href="~/admin/assets" class="nav-link">Assets</a></li>
+								<ul class="nav nav-group-sub" data-submenu-title="Stock Manager">
+									<li class="nav-item"><a href="~/admin/assets" class="nav-link">Stock</a></li>
 
 									<li class="nav-item"><a href="~/admin/facilities" class="nav-link">Locations</a></li>
-									<li class="nav-item"><a href="~/admin/AssetCategory" class="nav-link">Asset Categories</a></li>
+									<li class="nav-item"><a href="~/admin/AssetCategory" class="nav-link">Categories</a></li>
 									<li class="nav-item"><a href="~/admin/departments" class="nav-link">Departments</a></li>
 									<li class="nav-item"><a href="~/admin/grants" class="nav-link">Grants</a></li>
-
 									<li class="nav-item"><a href="~/admin/jobtitles" class="nav-link">Job Titles</a></li>
 									<li class="nav-item"><a href="~/admin/Countries" class="nav-link">Countries</a></li>
 									<li class="nav-item"><a href="~/admin/reasons" class="nav-link">Reasons</a></li>
@@ -285,7 +282,7 @@
 
 				<div class="navbar-collapse collapse" id="navbar-footer">
 					<span class="navbar-text">
-						&copy; @DateTime.Now.ToString("yyyy") <a href="#">It Assets</a>
+						&copy; @DateTime.Now.ToString("yyyy") <a href="#">VMMC Stock Management</a>
 					</span>
 
 					@*<ul class="navbar-nav ml-lg-auto">

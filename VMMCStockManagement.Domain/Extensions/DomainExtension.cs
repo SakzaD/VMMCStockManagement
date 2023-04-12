@@ -79,6 +79,9 @@ namespace VMMCStockManagement.Domain.Extensions
 			services.AddTransient<IReasonCategoryQueryService, ReasonCategoryQueryService>();
 			services.AddTransient<IReferenceQueryService, ReferenceQueryService>();
 			services.AddTransient<IStaffManagerQueryService, StaffManagerQueryService>();
+			services.AddTransient<IStockQueryService, StockQueryService>();
+			services.AddTransient<IReasonQueryService, ReasonQueryService>();
+			services.AddTransient<ICategoryQueryService, CategoryQueryService>();
 
 
 

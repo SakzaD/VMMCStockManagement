@@ -36,7 +36,7 @@ namespace VMMCStockManagement.Domain.Services.GeneralServices
 			
 			var requests = stockQueryRepository
 				.GetAll()
-				.Where(x => x.RequestApproval.ItStaffStatus != Enums.StockStatus.Completed && ((x.CreatedAt.Date - now.Date).TotalDays % 3 == 0))
+				.Where(x => x.RequestApproval.HOApproverStatus != Enums.StockStatus.Completed && ((x.CreatedAt.Date - now.Date).TotalDays % 3 == 0))
 				.ToList();
 
 			if (requests.Any())

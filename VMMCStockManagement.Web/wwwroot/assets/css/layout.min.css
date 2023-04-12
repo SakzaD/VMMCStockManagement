@@ -379,9 +379,9 @@ body{
 .sidebar-fullscreen .sidebar-mobile-expand i:last-child{
     display:inline-block
 }
-.sidebar-dark{
-    background-color:#263238;
-    color:#fff
+.sidebar-dark {
+    background-color: #17a2b8;
+    color: #fff
 }
 .sidebar-dark .sidebar-mobile-toggler{
     color:rgba(255,255,255,.9);

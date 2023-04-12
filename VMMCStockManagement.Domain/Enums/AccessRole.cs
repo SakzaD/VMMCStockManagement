@@ -8,11 +8,10 @@ namespace VMMCStockManagement.Domain.Enums
 {
 	public enum AccessRole
 	{
-		DataCapture = 1,
-		SiteManager,
-		DistrictManager,
-		StockManager,
-		Supplier,
+		Requester = 1,
+		HOApprover,
+		DistrictCoordinator,
+		ProgramAdministrator,		
 		Admin,
 		Unknown
 	}

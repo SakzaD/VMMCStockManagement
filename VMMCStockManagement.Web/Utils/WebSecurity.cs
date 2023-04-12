@@ -32,7 +32,7 @@ namespace VMMCStockManagement.Web.Utils
 
 			var role = roles.FirstOrDefault();
 
-			return string.IsNullOrEmpty(role) ? RoleConstants.DataCapture : role;
+			return string.IsNullOrEmpty(role) ? RoleConstants.Requester : role;
 		}
 		public User User { get { return (userManager.Users.FirstOrDefault(x => x.Id == UserId)); } }
 

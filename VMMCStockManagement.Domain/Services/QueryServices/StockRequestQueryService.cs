@@ -39,46 +39,46 @@ namespace VMMCStockManagement.Domain.Services.QueryServices
 			if (requestApproval == null)
 				return StockStatus.Pending;
 
-			if (requestApproval.LineManagerStatus == StockStatus.Pending)
+			if (requestApproval.DistrictCoordinatorStatus == StockStatus.Pending)
 			{
 				return StockStatus.Pending;
 			}
-			else if (requestApproval.LineManagerStatus == StockStatus.Rejected)
+			else if (requestApproval.DistrictCoordinatorStatus == StockStatus.Rejected)
 			{
 				return StockStatus.Rejected;
 			}
-			else if (requestApproval.LineManagerStatus == StockStatus.Amend)
+			else if (requestApproval.DistrictCoordinatorStatus == StockStatus.Amend)
 			{
 				return StockStatus.Amend;
 			}
 
-			if (requestApproval.ItManagerStatus == StockStatus.Pending)
+			if (requestApproval.ProgramAdministratorStatus == StockStatus.Pending)
 			{
 				return StockStatus.Pending;
 			}
-			else if (requestApproval.ItManagerStatus == StockStatus.Rejected)
+			else if (requestApproval.ProgramAdministratorStatus == StockStatus.Rejected)
 			{
 				return StockStatus.Rejected;
 			}
-			else if (requestApproval.ItManagerStatus == StockStatus.Amend)
+			else if (requestApproval.ProgramAdministratorStatus == StockStatus.Amend)
 			{
 				return StockStatus.Amend;
 			}
 
-			if (requestApproval.ItStaffStatus == StockStatus.Pending)
+			if (requestApproval.HOApproverStatus == StockStatus.Pending)
 			{
 				return StockStatus.Pending;
 			}
-			else if (requestApproval.ItStaffStatus == StockStatus.Rejected)
+			else if (requestApproval.HOApproverStatus == StockStatus.Rejected)
 			{
 				return StockStatus.Rejected;
 			}
-			else if (requestApproval.ItStaffStatus == StockStatus.Amend)
+			else if (requestApproval.HOApproverStatus == StockStatus.Amend)
 			{
 				return StockStatus.Amend;
 			}
 
-			if (requestApproval.ItStaffStatus == StockStatus.Completed)
+			if (requestApproval.HOApproverStatus == StockStatus.Completed)
 			{
 				return StockStatus.Completed;
 			}
@@ -90,45 +90,45 @@ namespace VMMCStockManagement.Domain.Services.QueryServices
 			if (requestApproval == null)
 				return "Pending";
 
-			if (requestApproval.LineManagerStatus == StockStatus.Pending)
+			if (requestApproval.DistrictCoordinatorStatus == StockStatus.Pending)
 			{
 				return "At Line Manager";
 			}
-			else if (requestApproval.LineManagerStatus == StockStatus.Rejected)
+			else if (requestApproval.DistrictCoordinatorStatus == StockStatus.Rejected)
 			{
 				return "Declined";
 			}
-			else if (requestApproval.LineManagerStatus == StockStatus.Amend)
+			else if (requestApproval.DistrictCoordinatorStatus == StockStatus.Amend)
 			{
 				return "Amend required";
 			}			
 
-			if (requestApproval.ItManagerStatus == StockStatus.Pending)
+			if (requestApproval.ProgramAdministratorStatus == StockStatus.Pending)
 			{
 				return "At IT Manager";
 			}
-			else if (requestApproval.ItManagerStatus == StockStatus.Rejected)
+			else if (requestApproval.ProgramAdministratorStatus == StockStatus.Rejected)
 			{
 				return "Declined";
 			}
-			else if (requestApproval.ItManagerStatus == StockStatus.Amend)
+			else if (requestApproval.ProgramAdministratorStatus == StockStatus.Amend)
 			{
 				return "Amend required";
 			}
 
-			if (requestApproval.ItStaffStatus == StockStatus.Pending)
+			if (requestApproval.HOApproverStatus == StockStatus.Pending)
 			{
 				return "At IT Staff";
 			}
 
 
-			if (requestApproval.ItStaffStatus == StockStatus.Approved)
+			if (requestApproval.HOApproverStatus == StockStatus.Approved)
 			{
 				return "Pending Allocation";
 			}
 
 
-			if (requestApproval.ItStaffStatus == StockStatus.Completed)
+			if (requestApproval.HOApproverStatus == StockStatus.Completed)
 			{
 				return "Completed";
 			}
@@ -146,20 +146,21 @@ namespace VMMCStockManagement.Domain.Services.QueryServices
 			if (requestApproval == null)
 				return true;
 
-			if (requestApproval.LineManagerStatus != StockStatus.Approved
-				&& currentRole == AccessRole.DataCapture)
+			if (requestApproval.DistrictCoordinatorStatus != StockStatus.Approved
+				&& currentRole == AccessRole.DistrictCoordinator)
 			{
 				return true;
 			}			
 
-			if (requestApproval.ItManagerStatus != StockStatus.Approved
-				&& currentRole == AccessRole.Supplier)
+			if (requestApproval.ProgramAdministratorStatus != StockStatus.Approved
+				&& currentRole == AccessRole.ProgramAdministrator)
 			{
 				return true;
 			}
 
-			if (requestApproval.ItStaffStatus != StockStatus.Approved
-				&& currentRole == AccessRole.Admin)
+			if (requestApproval.HOApproverStatus != StockStatus.Approved
+				&& currentRole == AccessRole.HOApprover)
+
 			{
 				return true;
 			}
@@ -172,20 +173,19 @@ namespace VMMCStockManagement.Domain.Services.QueryServices
 			if (requestApproval == null)
 				return AccessRole.Unknown;
 
-			if (requestApproval.LineManagerStatus != StockStatus.Approved)
+			if (requestApproval.DistrictCoordinatorStatus != StockStatus.Approved)
 			{
-				return AccessRole.DataCapture;
+				return AccessRole.DistrictCoordinator;
 			}
-
 		
-			if (requestApproval.ItManagerStatus != StockStatus.Approved)
+			if (requestApproval.ProgramAdministratorStatus != StockStatus.Approved)
 			{
-				return AccessRole.Supplier;
+				return AccessRole.ProgramAdministrator;
 			}
 
-			if (requestApproval.ItStaffStatus != StockStatus.Approved)
+			if (requestApproval.HOApproverStatus != StockStatus.Approved)
 			{
-				return AccessRole.Admin;
+				return AccessRole.HOApprover;
 			}
 			return AccessRole.Unknown;
 		}
@@ -295,17 +295,13 @@ namespace VMMCStockManagement.Domain.Services.QueryServices
 
 			string reason = string.Empty;
 
-			/*if(accessRole == AccessRole.ServiceDesk) {
-				reason = assetRequest.RequestApproval.LineManagerApprovalReason;
-			}else */
-
-			if (accessRole == AccessRole.DataCapture)
+			if (accessRole == AccessRole.DistrictCoordinator)
 			{
-				reason = assetRequest.RequestApproval.LineManagerApprovalReason;
+				reason = assetRequest.RequestApproval.DistrictCoordinatorApprovalReason;
 			}
-			else if (accessRole == AccessRole.Supplier)
+			else if (accessRole == AccessRole.ProgramAdministrator)
 			{
-				reason = assetRequest.RequestApproval.ItManagerApprovalReason;
+				reason = assetRequest.RequestApproval.ProgramAdministratorApprovalReason;
 			}
 			else
 			{
@@ -469,20 +465,20 @@ namespace VMMCStockManagement.Domain.Services.QueryServices
 			int count = 0;
 
 
-			if (filter.AccessRole == AccessRole.DataCapture)
+			if (filter.AccessRole == AccessRole.DistrictCoordinator)
 
-				count = data.Count(x => x.RequestApproval.LineManagerStatus == StockStatus.Pending);			
+				count = data.Count(x => x.RequestApproval.DistrictCoordinatorStatus == StockStatus.Pending);			
 
-			else if (filter.AccessRole == AccessRole.Supplier)
+			else if (filter.AccessRole == AccessRole.ProgramAdministrator)
 
-				count = data.Count(x => x.RequestApproval.LineManagerStatus == StockStatus.Approved
-				&& x.RequestApproval.ItManagerStatus == StockStatus.Pending);
+				count = data.Count(x => x.RequestApproval.DistrictCoordinatorStatus == StockStatus.Approved
+				&& x.RequestApproval.ProgramAdministratorStatus == StockStatus.Pending);
 
-			else if (filter.AccessRole == AccessRole.Admin)
+			else if (filter.AccessRole == AccessRole.HOApprover)
 
-				count = data.Count(x => x.RequestApproval.LineManagerStatus == StockStatus.Approved
-				&& x.RequestApproval.ItManagerStatus == StockStatus.Approved
-				&& x.RequestApproval.ItStaffStatus == StockStatus.Pending);
+				count = data.Count(x => x.RequestApproval.DistrictCoordinatorStatus == StockStatus.Approved
+				&& x.RequestApproval.ProgramAdministratorStatus == StockStatus.Approved
+				&& x.RequestApproval.HOApproverStatus == StockStatus.Pending);
 
 
 			var notification = new NotificationResponse
@@ -611,7 +607,7 @@ namespace VMMCStockManagement.Domain.Services.QueryServices
 
 				var requests = queryRepository
 					.GetAll()
-					.Where(x => x.RequestApproval.ItStaffStatus != Enums.StockStatus.Completed)
+					.Where(x => x.RequestApproval.HOApproverStatus != Enums.StockStatus.Completed)
 					.ToList();
 
 				foreach (var item in requests)

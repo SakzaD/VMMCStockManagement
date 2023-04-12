@@ -32,18 +32,18 @@ namespace VMMCStockManagement.Infrastructure.Repositories
 			 .OrderByDescending(x => x.CreatedAt)
 			 .AsQueryable();
 
-			if (filter.AccessRole == AccessRole.DataCapture)
+			if (filter.AccessRole == AccessRole.DistrictCoordinator)
 			{
 				data = data.Where(x => x.ManagerId == filter.UserId);
 			}
-			else if (filter.AccessRole == AccessRole.SiteManager)
+			else if (filter.AccessRole == AccessRole.ProgramAdministrator)
 			{
 				data = data.Where(x => x.CreatedBy == filter.UserId);
 			}			
-			else if (filter.AccessRole == AccessRole.DistrictManager)
+			else if (filter.AccessRole == AccessRole.HOApprover)
 			{
 				data = data.Where(x => x.RequestApproval != null &&
-				x.RequestApproval.LineManagerStatus == StockStatus.Approved);
+				x.RequestApproval.DistrictCoordinatorStatus == StockStatus.Approved);
 			}			
 
 			data = SpecifyInclude(data);

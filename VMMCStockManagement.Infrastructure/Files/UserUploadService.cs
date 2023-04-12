@@ -136,14 +136,6 @@ namespace VMMCStockManagement.Infrastructure.Files
 			throw new NotImplementedException();
 		}
 
-		List<UserModel> IUserUploadService.ReadFile(FileInfo fileInfo)
-		{
-			throw new NotImplementedException();
-		}
 
-		Task<List<UserModel>> IUserUploadService.ReadFileAsync(FileInfo fileInfo)
-		{
-			throw new NotImplementedException();
-		}
 	}
 }

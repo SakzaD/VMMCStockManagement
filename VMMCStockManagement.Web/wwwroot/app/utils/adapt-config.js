@@ -9,8 +9,8 @@ var adaptconfig = {
     },
     data() {
         return {
-            //ApiUrl: "https://localhost:5001",
-            ApiUrl: "https://itasset.righttocare.org",
+            ApiUrl: "https://localhost:5001",
+            //ApiUrl: "https://vmmcstockmanagement.righttocare.org",
             ApiUrlUat: "http://10.7.2.74/adapt",
             userId: '',
             isloading: false
@@ -48,8 +48,8 @@ var adaptconfig = {
         //},
         downloadFile: function (fileName) {
 
-            //var filePath = "https://localhost:5001/attachments/Specification/"+fileName;
-            var filePath = "https://itasset.righttocare.org/attachments/Specification/" + fileName;
+            var filePath = "https://localhost:5001/attachments/Specification/"+fileName;
+            //var filePath = "https://itasset.righttocare.org/attachments/Specification/" + fileName;
             var link = document.createElement("a");
             link.href = filePath;
 

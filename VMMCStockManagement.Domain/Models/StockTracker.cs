@@ -11,8 +11,10 @@ namespace VMMCStockManagement.Domain.Models
 		public string? ReferenceNumber { get; set; }
 		public string TicketNumber { get; set; }
 		public RequesterModel Requester { get; set; } = new RequesterModel();
-		public DataCapureModel DataCapure { get; set; } = new DataCapureModel();
-		public SupplierModel Supplier { get; set; } = new SupplierModel();		
+		public DistrictCoordinatorModel DistrictCoordinator { get; set; } = new DistrictCoordinatorModel();
+		public ProgramAdministratorModel ProgramAdministrator { get; set; } = new ProgramAdministratorModel();
+		public HOApproverModel HOApprover { get; set; } = new HOApproverModel();
+
 		public List<RequestedItemModel> RequestedItems { get; set; } = new List<RequestedItemModel>();
 	}
 
@@ -31,14 +33,21 @@ namespace VMMCStockManagement.Domain.Models
 		public string Email { get; set; }
 	}
 
-	public class SupplierModel
+	public class HOApproverModel
 	{
 		public string DateArrived { get; set; }
 		public string DateApproved { get; set; } = "Pending";
 		public bool IsCompleted { get; set; }
 	}
 
-	public class DataCapureModel
+	public class DistrictCoordinatorModel
+	{
+		public string DateArrived { get; set; }
+		public string DateApproved { get; set; } = "Pending";
+		public bool IsCompleted { get; set; }
+	}
+
+	public class ProgramAdministratorModel
 	{
 		public string DateArrived { get; set; }
 		public string DateApproved { get; set; } = "Pending";

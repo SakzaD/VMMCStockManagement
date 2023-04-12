@@ -4,18 +4,34 @@
     ViewData["Title"] = "Log out";
 }
 
-<header>
-    <h1>@ViewData["Title"]</h1>
-    @{
-        if (User.Identity?.IsAuthenticated ?? false)
-        {
-            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
-                <button type="submit" class="nav-link btn btn-link text-dark">Click here to Logout</button>
-            </form>
-        }
-        else
-        {
-            <p>You have successfully logged out of the application.</p>
-        }
-    }
-</header>
+<div class="content-wrapper">
+
+	<!-- Content area -->
+	<div class="content d-flex justify-content-center align-items-center">
+
+		<!-- Password recovery form -->
+		<form class="login-form" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
+			<div class="card mb-0">
+				<div class="card-body">
+					<div class="text-center mb-3">
+						<img src="~/global_assets/images/logo-sm.png" class="mb-2" style="width:105px;height: 60px;" />
+						<h5 class="mb-0">Log Out</h5>
+						@*<span class="d-block text-muted">We'll send you instructions in email</span>*@
+					</div>
+
+					@if (User.Identity.IsAuthenticated)
+					{
+						<button type="submit" class="btn bg-teal-400 btn-block"><i class="icon-esc mr-2"></i> Click here to Logout</button>
+					}
+					else
+					{
+						<p>You have successfully logged out of the application. <a asp-page="/Account/Login"> Log in</a></p>
+					}
+
+
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+

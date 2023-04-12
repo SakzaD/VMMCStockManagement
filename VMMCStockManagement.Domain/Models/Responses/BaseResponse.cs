@@ -9,9 +9,9 @@ namespace VMMCStockManagement.Domain.Models.Responses
 {
 	public class BaseResponse
 	{
-		public ResponseStatus CodeStatus {  get; set; }
-		public string Status { get; set; }
+		public ResponseStatus CodeStatus {  get; set; }		
 		public string Message { get; set; }
+		public string Status { get { return CodeStatus.ToString().ToLower(); } }
 
 	}
 }

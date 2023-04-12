@@ -11,21 +11,20 @@ namespace VMMCStockManagement.Web.Utils
 
 			if (type.Equals("in", StringComparison.InvariantCultureIgnoreCase))
 			{
-				return AccessRole.DataCapture;
+				return AccessRole.Requester;
 			}
-            //else if (type.Equals("ln", StringComparison.InvariantCultureIgnoreCase))
-            //{
-            //	return AccessRole.SiteManager;
-            //}
-
-            //else if (type.Equals("im", StringComparison.InvariantCultureIgnoreCase))
-            //{
-            //	return AccessRole.StockManager;
-            //}
-            //else if (type.Equals("is", StringComparison.InvariantCultureIgnoreCase))
-            //{
-            //	return AccessRole.DistrictManager;
-            //}
+            else if (type.Equals("ln", StringComparison.InvariantCultureIgnoreCase))
+            {
+                return AccessRole.DistrictCoordinator;
+            }
+            else if (type.Equals("im", StringComparison.InvariantCultureIgnoreCase))
+            {
+                return AccessRole.ProgramAdministrator;
+            }
+            else if (type.Equals("is", StringComparison.InvariantCultureIgnoreCase))
+            {
+                return AccessRole.HOApprover;
+            }
 
             return AccessRole.Unknown;
 		}

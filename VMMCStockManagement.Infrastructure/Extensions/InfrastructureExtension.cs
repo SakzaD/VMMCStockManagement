@@ -90,6 +90,7 @@ namespace VMMCStockManagement.Infrastructure.Extensions
 			services.AddTransient<ICommandRepository<StockByReference>, CommandRepository<StockByReference>>();
 			services.AddTransient<ICommandRepository<UserAsset>, CommandRepository<UserAsset>>();
 			services.AddTransient<ICommandRepository<ReasonCategory>, CommandRepository<ReasonCategory>>();
+			services.AddTransient<ICommandRepository<StockRequestAssetCategoryItem>, CommandRepository<StockRequestAssetCategoryItem>>();
 			
 
 
@@ -132,6 +133,7 @@ namespace VMMCStockManagement.Infrastructure.Extensions
 			services.AddTransient<IQueryRepository<StockByReference, StockByReferenceFilter>, StockByReferenceQueryRepository>();
 			services.AddTransient<IQueryRepository<UserAsset, UserAssetFilter>, UserAssetQueryRepository>();
 			services.AddTransient<IQueryRepository<ReasonCategory, ReasonCategoryFilter>, ReasonCategoryQueryRepository>();
+			services.AddTransient<IQueryRepository<StockRequestAssetCategoryItem, StockRequestAssetCategoryItemFilter>, StockRequestAssetCategoryItemQueryRepository>();
 			
 			
 			return services;

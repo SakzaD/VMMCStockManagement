@@ -14,18 +14,20 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using VMMCStockManagement.Domain.Entities;
+using VMMCStockManagement.Domain.Models;
+using VMMCStockManagement.Domain.Utils;
 
 namespace VMMCStockManagement.Web.Areas.Identity.Pages.Account
 {
     public class ForgotPasswordModel : PageModel
     {
         private readonly UserManager<User> _userManager;
-        private readonly IEmailSender _emailSender;
+        private readonly IEmailService _emailService;
 
-        public ForgotPasswordModel(UserManager<User> userManager, IEmailSender emailSender)
+        public ForgotPasswordModel(UserManager<User> userManager, IEmailService emailSender)
         {
             _userManager = userManager;
-            _emailSender = emailSender;
+            _emailService = emailSender;
         }
 
         /// <summary>
@@ -71,10 +73,11 @@ namespace VMMCStockManagement.Web.Areas.Identity.Pages.Account
                     values: new { area = "Identity", code },
                     protocol: Request.Scheme);
 
-                await _emailSender.SendEmailAsync(
-                    Input.Email,
-                    "Reset Password",
-                    $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                var to = new Dictionary<string, string>();
+                to.Add(Input.Email, Input.Email);
+                var email = Email.Create(to, null, "Reset Password",
+                    $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>. <br> <br>");
+                _emailService.Send(email);
 
                 return RedirectToPage("./ForgotPasswordConfirmation");
             }

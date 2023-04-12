@@ -9,30 +9,27 @@ using VMMCStockManagement.Domain.Enums;
 namespace VMMCStockManagement.Domain.Constants
 {
 	public static class RoleConstants
-	{
-		public const string Administrator = "Administrator";
-		public const string DataCapture = "DataCapture";
-		public const string Supplier = "Supplier";
-
-		public const string StockManager = "StockManager";
-		public const string DistrictManager = "DistrictManager";
-		public const string SiteManager = "SiteManager";
+	{	
+		//VMMC Roles
+		public const string Requester = "Team Leader"; 
+		public const string DistrictCoordinator = "District Coordinator";	
+		public const string ProgramAdministrator = "Program Administrator";
+		public const string HOApprover = "HO Approver";
+		public const string Administrator = "Administrator";		
 
 
 		public static AccessRole GetRoleEnum(this string role)
 		{
 			switch (role)
 			{
-				case DataCapture:
-					return AccessRole.DataCapture;
-				case Supplier:
-					return AccessRole.Supplier;
-				case StockManager:
-					return AccessRole.StockManager;
-				case DistrictManager:
-					return AccessRole.DistrictManager;
-				case SiteManager:
-					return AccessRole.SiteManager;
+				case Requester:
+					return AccessRole.Requester;
+				case DistrictCoordinator:
+					return AccessRole.DistrictCoordinator;
+				case ProgramAdministrator:
+					return AccessRole.ProgramAdministrator;
+				case HOApprover:
+					return AccessRole.HOApprover;				
 				default:
 					return AccessRole.Admin;
 			}

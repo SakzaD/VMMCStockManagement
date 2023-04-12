@@ -49,9 +49,9 @@ namespace VMMCStockManagement.Domain.Services.QueryServices
 					DepartmentName = item.Department?.Name,
 					GrantId = item.GrantId,
 					GrantName = grant,
-					Status = item.RequestApproval.ItStaffStatus == StockStatus.Completed,
+					Status = item.RequestApproval.HOApproverStatus == StockStatus.Completed,
 					DateRequested = item.CreatedAt.ToString("yyyy-MM-dd"),
-					DateIssued = item.RequestApproval.ItStaffCompleteDate == null ? "Not completed" : item.RequestApproval.ItStaffCompleteDate.Value.ToString("yyyy-MM-dd"),
+					DateIssued = item.RequestApproval.HOApproverCompleteDate == null ? "Not completed" : item.RequestApproval.HOApproverCompleteDate.Value.ToString("yyyy-MM-dd"),
 					DateRequired = item.DateRequired == null ? "N/A" : item.DateRequired.Value.ToString("yyyy-MM-dd"),
 				});
 			}

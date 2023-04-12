@@ -154,7 +154,7 @@ namespace VMMCStockManagement.Domain.Services
 				Email = user.Email,
 				PhoneNumber = user.PhoneNumber,
 				EmployeeNumber = user.EmployeeNumber,
-				Role = (roles == null || roles.Count() == 0) ? RoleConstants.DataCapture : string.Join(",", roles)
+				Role = (roles == null || roles.Count() == 0) ? RoleConstants.Requester : string.Join(",", roles)
 			};
 
 			response.Data = userRes;
@@ -301,9 +301,9 @@ namespace VMMCStockManagement.Domain.Services
 					PhoneNumber = string.IsNullOrWhiteSpace(request.PhoneNumber) ? "" : request.PhoneNumber.Trim(),
 					Email = request.Email.Trim(),
 					EmailConfirmed = true,
-					CreatedBy = "22389854-0d04-4665-b961-df51423449cc",
+					CreatedBy = "22636619-6ee7-4729-96a0-5c31cffe75bc",
 					CreatedAt = DateTime.Now,
-                    UpdatedBy = "22389854-0d04-4665-b961-df51423449cc",
+                    UpdatedBy = "22636619-6ee7-4729-96a0-5c31cffe75bc",
                     UpdatedAt = DateTime.Now
                 };
 
@@ -340,7 +340,7 @@ namespace VMMCStockManagement.Domain.Services
 				{
 					var role = roles
 						.FirstOrDefault(
-						x => x.Name.Contains(RoleConstants.DataCapture,
+						x => x.Name.Contains(RoleConstants.Requester,
 						StringComparison.InvariantCultureIgnoreCase));
 
 					var addRoleResult = await userManager.AddToRoleAsync(user, role.Name);
@@ -425,7 +425,7 @@ namespace VMMCStockManagement.Domain.Services
 				}
 				else
 				{
-					var addRoleResult = await userManager.AddToRoleAsync(user, RoleConstants.DataCapture);
+					var addRoleResult = await userManager.AddToRoleAsync(user, RoleConstants.Requester);
 				}
 
 
@@ -535,7 +535,7 @@ namespace VMMCStockManagement.Domain.Services
 				{
 					var newRole = roles
 						.FirstOrDefault(x => x.Name
-						.Contains(RoleConstants.DataCapture,
+						.Contains(RoleConstants.Requester,
 						StringComparison.InvariantCultureIgnoreCase));
 
 					var addRoleResult = await userManager.AddToRoleAsync(user, newRole.Name);
@@ -645,7 +645,7 @@ namespace VMMCStockManagement.Domain.Services
 			string systemName = configuration.GetValue<string>("SystemConfig:Name");
 
 			var email = Email.Create(to, null, "Registered Successful",
-				$"Hi {name} <br> You've been registered on {systemName}, you can follow this " +
+				$"Hi {name} <br> You've been registered on {systemName}, you can follow this <br>" +
 				$"<a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>link</a> to login to the system. <br> <br>Here is your temporary password: {password}<br> <br>");
 			this.emailService.Send(email);
 		}

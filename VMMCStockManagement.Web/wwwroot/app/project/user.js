@@ -366,6 +366,7 @@ var userContext = new Vue({
 
                     if (response.data.status == 'success') {
                         me.roles = response.data.data;
+                        console.log("Roles :" + me.roles);
                     }
                 })
                 .catch(function (error) {

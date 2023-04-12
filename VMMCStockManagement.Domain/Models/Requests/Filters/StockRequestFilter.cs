@@ -12,6 +12,6 @@ namespace VMMCStockManagement.Domain.Models.Requests.Filters
 		public string? Type { get; set; }
 		public bool IsInitiator { get; set; } = false;
 		public bool IsLineManager { get; set; } = false;
-		public AccessRole AccessRole { get; set; } = AccessRole.DataCapture;
+		public AccessRole AccessRole { get; set; } = AccessRole.Requester;
 	}
 }

@@ -47,49 +47,48 @@ namespace VMMCStockManagement.Domain.Services
 			if (approvalRequest == null)
 			{
 				stockTracker.Requester = new RequesterModel();
-				stockTracker.Supplier = new SupplierModel();
-				stockTracker.DataCapure = new DataCapureModel();
-				//stockTracker.ItManager = new ItManagerModel();
-				//stockTracker.ItStaff = new ItStaffModel();
+				stockTracker.DistrictCoordinator = new DistrictCoordinatorModel();
+				stockTracker.ProgramAdministrator = new ProgramAdministratorModel();
+				stockTracker.HOApprover = new HOApproverModel();				
 				return stockTracker;
 			}
 
 			var dateArrived = stockRequest.CreatedAt.ToString(dateFormat);
-			var dateApproved = approvalRequest.LineManagerApprovalDate != null ?
-				approvalRequest.LineManagerApprovalDate.Value.ToString(dateFormat) : "Pending";
+			var dateApproved = approvalRequest.DistrictCoordinatorApprovalDate != null ?
+				approvalRequest.DistrictCoordinatorApprovalDate.Value.ToString(dateFormat) : "Pending";
 
-			var supplier = new SupplierModel
+			var districtCoordinator = new DistrictCoordinatorModel
 			{
 				DateArrived = dateArrived,
 				DateApproved = dateApproved,
-				IsCompleted = approvalRequest.LineManagerStatus == Enums.StockStatus.Approved
+				IsCompleted = approvalRequest.DistrictCoordinatorStatus == Enums.StockStatus.Approved
 			};
 
-			dateArrived = approvalRequest.LineManagerApprovalDate != null ?
-			   approvalRequest.LineManagerApprovalDate.Value.ToString(dateFormat) : "Pending";
+			dateArrived = approvalRequest.DistrictCoordinatorApprovalDate != null ?
+			   approvalRequest.DistrictCoordinatorApprovalDate.Value.ToString(dateFormat) : "Pending";
 			
-			dateApproved = approvalRequest.ItManagerApprovalDate != null ?
-			   approvalRequest.ItManagerApprovalDate.Value.ToString(dateFormat) : "Pending";
+			dateApproved = approvalRequest.DistrictCoordinatorApprovalDate != null ?
+			   approvalRequest.DistrictCoordinatorApprovalDate.Value.ToString(dateFormat) : "Pending";
 
-			var dataCapture = new DataCapureModel
+			var programAdministrator = new ProgramAdministratorModel
 			{
 				DateArrived = dateArrived,
 				DateApproved = dateApproved,
-				IsCompleted = approvalRequest.ItManagerStatus == Enums.StockStatus.Approved
+				IsCompleted = approvalRequest.ProgramAdministratorStatus == Enums.StockStatus.Approved
 			};
 
 
-			dateArrived = approvalRequest.ItManagerApprovalDate != null ?
-		   approvalRequest.ItManagerApprovalDate.Value.ToString(dateFormat) : "Pending";
-			dateApproved = approvalRequest.ItStaffCompleteDate != null ?
-			   approvalRequest.ItStaffCompleteDate.Value.ToString(dateFormat) : "Pending";
+			dateArrived = approvalRequest.ProgramAdministratorApprovalDate != null ?
+		   approvalRequest.ProgramAdministratorApprovalDate.Value.ToString(dateFormat) : "Pending";
+			dateApproved = approvalRequest.HOApproverCompleteDate != null ?
+			   approvalRequest.HOApproverCompleteDate.Value.ToString(dateFormat) : "Pending";
 
-			//var itStaff = new ItStaffModel
-			//{
-			//	DateArrived = dateArrived,
-			//	DateCompleted = dateApproved,
-			//	IsCompleted = approvalRequest.ItStaffStatus == Enums.StockStatus.Completed
-			//};
+			var hoApprover = new HOApproverModel
+			{
+				DateArrived = dateArrived,
+				DateApproved = dateApproved,
+				IsCompleted = approvalRequest.HOApproverStatus == Enums.StockStatus.Completed
+			};
 
 			var items = new List<RequestedItemModel>();
 
@@ -117,10 +116,9 @@ namespace VMMCStockManagement.Domain.Services
 			}
 
 			stockTracker.Requester = requester;
-			stockTracker.DataCapure = dataCapture;
-			stockTracker.Supplier = supplier;
-			//stockTracker.ItManager = itManager;
-			//stockTracker.ItStaff = itStaff;
+			stockTracker.DistrictCoordinator = districtCoordinator;
+			stockTracker.ProgramAdministrator = programAdministrator;
+			stockTracker.HOApprover = hoApprover;			
 			stockTracker.RequestedItems = items;
 
 

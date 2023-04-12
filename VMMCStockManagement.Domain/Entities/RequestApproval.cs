@@ -14,24 +14,24 @@ namespace VMMCStockManagement.Domain.Entities
 		public StockStatus InitiatorStatus { get; set; }
 		public string InitiatorId { get; set; }
 
-		public StockStatus LineManagerStatus { get; set; }
-		public string? LineManagerApprovalReason { get; set; }
-		public string? LineManagerRejectionReason { get; set; }
-		public string? LineManagerId { get; set; }
-		public DateTime? LineManagerApprovalDate { get; set; }	
+		public StockStatus DistrictCoordinatorStatus { get; set; }
+		public string? DistrictCoordinatorApprovalReason { get; set; }
+		public string? DistrictCoordinatorRejectionReason { get; set; }
+		public string? DistrictCoordinatorId { get; set; }
+		public DateTime? DistrictCoordinatorApprovalDate { get; set; }	
 
-		public StockStatus ItManagerStatus { get; set; }
-		public string? ItManagerApprovalReason { get; set; }
-		public string? ItManagerRejectionReason { get; set; }
-		public string? ItManagerId { get; set; }
-		public DateTime? ItManagerApprovalDate { get; set; }
+		public StockStatus ProgramAdministratorStatus { get; set; }
+		public string? ProgramAdministratorApprovalReason { get; set; }
+		public string? ProgramAdministratorRejectionReason { get; set; }
+		public string? ProgramAdministratorId { get; set; }
+		public DateTime? ProgramAdministratorApprovalDate { get; set; }
 
-		public StockStatus? ItStaffStatus { get; set; }
-		public string? ItStaffId { get; set; }
-		public DateTime? ItStaffCompleteDate { get; set; }
+		public StockStatus? HOApproverStatus { get; set; }
+		public string? HOApproverId { get; set; }
+		public DateTime? HOApproverCompleteDate { get; set; }
 
 
-		[ForeignKey("AssetRequest")]
+		[ForeignKey("StockRequest")]
 		public long StockRequestId { get; set; }
 
 
@@ -45,10 +45,9 @@ namespace VMMCStockManagement.Domain.Entities
 				UpdatedBy = request.UserId,
 				InitiatorId = request.UserId,
 				InitiatorStatus = StockStatus.Approved,
-				LineManagerStatus = StockStatus.Pending,
-				//ServiceDeskStatus = RequestStatus.Pending,
-				ItManagerStatus = StockStatus.Pending,
-				ItStaffStatus = StockStatus.Pending,
+				DistrictCoordinatorStatus = StockStatus.Pending,			
+				ProgramAdministratorStatus = StockStatus.Pending,
+				HOApproverStatus = StockStatus.Pending,
 				StockRequestId = stockRequestId
 			};
 		}
